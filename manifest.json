@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "obsidian-word-book",
+	"name": "WordBook",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "This plug-in is developed for the Chinese, in the summary notes encountered do not know the words, you can add to this word book, easy to review and master in the future.",
+	"author": "Grover",
+	"authorUrl": "https://github.com/grover572",
+	"fundingUrl": "https://github.com/grover572",
 	"isDesktopOnly": false
 }
