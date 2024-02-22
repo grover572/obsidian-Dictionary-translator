@@ -1,4 +1,5 @@
 import {App, Menu, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting} from 'obsidian';
+import translate from "./translate/translate";
 
 // Remember to rename these classes and interfaces!
 
@@ -14,35 +15,12 @@ export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings;
 
 	async onload() {
+
 		await this.loadSettings();
 
 		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
 			new Notice("I'm your personal translator");
-		});
-
-		this.addRibbonIcon("dice", "Open menu", (event) => {
-			const menu = new Menu();
-
-
-			menu.addItem((item) =>
-				item
-					.setTitle("Copy")
-					.setIcon("documents")
-					.onClick(() => {
-						new Notice("Copied");
-					})
-			);
-
-			menu.addItem((item) =>
-				item
-					.setTitle("Paste")
-					.setIcon("paste")
-					.onClick(() => {
-						new Notice("Pasted");
-					})
-			);
-
-			menu.showAtMouseEvent(event);
+			translate("hello");
 		});
 
 		// Perform additional things with the ribbon
@@ -51,8 +29,6 @@ export default class MyPlugin extends Plugin {
 		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
 		const statusBarItemEl = this.addStatusBarItem();
 		statusBarItemEl.setText('Status Bar Text');
-
-
 
 		// This adds a simple command that can be triggered anywhere
 		this.addCommand({
