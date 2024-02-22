@@ -35,7 +35,7 @@ function jsonp(url: string, data: any, callback: (data: any) => void) {
 }
 
 // 使用 JSONP 函数发送请求
-export default function translate(token: string) {
+export default function youdaoTranslate(token: string) {
 	const salt = (new Date()).getTime();
 	const curtime = Math.round(new Date().getTime() / 1000);
 	jsonp('https://openapi.youdao.com/api', {
@@ -50,5 +50,4 @@ export default function translate(token: string) {
 	}, (data) => {
 		console.log(data);
 	});
-
 }

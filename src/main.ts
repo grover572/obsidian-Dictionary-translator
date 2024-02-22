@@ -1,13 +1,12 @@
 import {App, Menu, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting} from 'obsidian';
-import translate from "./translate/translate";
-import {DEFAULT_SETTINGS, MyPluginSettings, WordBookSettingTab} from "./setting";
+import youdaoTranslate from "./translate/youdao/youdaoTranslate";
+import {DEFAULT_SETTINGS, WordBookSettings, WordBookSettingTab} from "./setting";
 
 // Remember to rename these classes and interfaces!
 
 
-
 export default class WordBookPlugin extends Plugin {
-	settings: MyPluginSettings;
+	settings: WordBookSettings;
 
 	async onload() {
 
@@ -15,7 +14,7 @@ export default class WordBookPlugin extends Plugin {
 
 		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
 			new Notice("I'm your personal translator");
-			translate("hello");
+			youdaoTranslate("hello");
 		});
 
 		// Perform additional things with the ribbon
