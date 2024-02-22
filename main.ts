@@ -1,4 +1,4 @@
-import {App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting} from 'obsidian';
+import {App, Menu, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting} from 'obsidian';
 
 // Remember to rename these classes and interfaces!
 
@@ -16,17 +16,42 @@ export default class MyPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
-		// This creates an icon in the left ribbon.
 		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
-			// Called when the user clicks the icon.
 			new Notice("I'm your personal translator");
 		});
+
+		this.addRibbonIcon("dice", "Open menu", (event) => {
+			const menu = new Menu();
+
+
+			menu.addItem((item) =>
+				item
+					.setTitle("Copy")
+					.setIcon("documents")
+					.onClick(() => {
+						new Notice("Copied");
+					})
+			);
+
+			menu.addItem((item) =>
+				item
+					.setTitle("Paste")
+					.setIcon("paste")
+					.onClick(() => {
+						new Notice("Pasted");
+					})
+			);
+
+			menu.showAtMouseEvent(event);
+		});
+
 		// Perform additional things with the ribbon
 		ribbonIconEl.addClass('my-plugin-ribbon-class');
 
 		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
 		const statusBarItemEl = this.addStatusBarItem();
 		statusBarItemEl.setText('Status Bar Text');
+
 
 		// This adds a simple command that can be triggered anywhere
 		this.addCommand({
@@ -36,6 +61,20 @@ export default class MyPlugin extends Plugin {
 				new SampleModal(this.app).open();
 			}
 		});
+
+		this.registerEvent(
+			this.app.workspace.on("editor-menu", (menu, editor, view) => {
+				menu.addItem((item) => {
+					item
+						.setTitle("Print file path 👈")
+						.setIcon("document")
+						.onClick(async () => {
+
+						});
+				});
+			})
+		);
+
 		// This adds an editor command that can perform some operation on the current editor instance
 		this.addCommand({
 			id: 'sample-editor-command',
