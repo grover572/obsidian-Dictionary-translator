@@ -1,17 +1,12 @@
 import {App, Menu, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting} from 'obsidian';
 import translate from "./translate/translate";
+import {DEFAULT_SETTINGS, MyPluginSettings, WordBookSettingTab} from "./setting";
 
 // Remember to rename these classes and interfaces!
 
-interface MyPluginSettings {
-	mySetting: string;
-}
 
-const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default'
-}
 
-export default class MyPlugin extends Plugin {
+export default class WordBookPlugin extends Plugin {
 	settings: MyPluginSettings;
 
 	async onload() {
@@ -43,10 +38,10 @@ export default class MyPlugin extends Plugin {
 			this.app.workspace.on("editor-menu", (menu, editor, view) => {
 				menu.addItem((item) => {
 					item
-						.setTitle("Print file path 👈")
-						.setIcon("document")
+						.setTitle("🔃  英译汉")
+						.setIcon("🔃")
 						.onClick(async () => {
-
+							console.log(editor.getSelection())
 						});
 				});
 			})
@@ -82,7 +77,7 @@ export default class MyPlugin extends Plugin {
 		});
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new SampleSettingTab(this.app, this));
+		this.addSettingTab(new WordBookSettingTab(this.app, this));
 
 		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
 		// Using this function will automatically remove the event listener when this plugin is disabled.
@@ -123,28 +118,3 @@ class SampleModal extends Modal {
 	}
 }
 
-class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
-
-	constructor(app: App, plugin: MyPlugin) {
-		super(app, plugin);
-		this.plugin = plugin;
-	}
-
-	display(): void {
-		const {containerEl} = this;
-
-		containerEl.empty();
-
-		new Setting(containerEl)
-			.setName('Setting #1')
-			.setDesc('It\'s a secret')
-			.addText(text => text
-				.setPlaceholder('Enter your secret')
-				.setValue(this.plugin.settings.mySetting)
-				.onChange(async (value) => {
-					this.plugin.settings.mySetting = value;
-					await this.plugin.saveSettings();
-				}));
-	}
-}
