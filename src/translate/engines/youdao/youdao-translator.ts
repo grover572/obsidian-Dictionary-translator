@@ -1,6 +1,22 @@
 import {EngineConfig, TranslationStrategy} from "../../const/translate-engines";
 import CryptoJS from 'crypto-js';
 import {YoudaoConfigs} from "./youdao-configs";
+import {TranslateResponse} from "../../const/translate-response";
+
+
+export class YoudaoTranslator implements TranslationStrategy {
+
+	config: YoudaoConfigs;
+
+	constructor(config: YoudaoConfigs) {
+		this.config = config;
+	}
+
+	translate(text: string): TranslateResponse {
+		return ""
+	}
+
+}
 
 // 定义 truncate 函数
 function truncate(q: string): string {
@@ -55,17 +71,7 @@ export default function youdaoTranslator(token: string) {
 }
 
 
-export class YoudaoTranslator implements TranslationStrategy {
 
-	config:YoudaoConfigs;
 
-	constructor(config:EngineConfig) {
-		this.config = <YoudaoConfigs>config;
-	}
-
-	translate(text: string): string {
-		return ""
-	}
-}
 
 

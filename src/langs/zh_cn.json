@@ -1,8 +1,13 @@
 {
-  "confirm": "确认",
-  "disable": "关闭",
-  "enable": "开启",
-  "goback": "返回",
-  "submit": "提交",
-  "sometext": "这里有一段文字。"
-  }
+	"confirm": "确认",
+	"disable": "关闭",
+	"enable": "开启",
+	"goback": "返回",
+	"submit": "提交",
+	"sometext": "这里有一段文字。",
+	"engines_chooser_div_title": "请选择翻译引擎",
+	"translate_engine": "翻译引擎",
+	"youdao": "有道翻译",
+	"youdao_app_key": "AppKey",
+	"youdao_app_secret": "AppSecret"
+}

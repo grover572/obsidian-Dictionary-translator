@@ -1,12 +1,8 @@
 import {App, Menu, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, moment} from 'obsidian';
 import youdaoTranslator from "./translate/engines/youdao/youdao-translator";
 import {DEFAULT_SETTINGS, DictionarySettings, DictionarySettingTab} from "./setting";
-import {I18n, LangTypeAndAuto, TransItemType} from "./util/i18n";
-import {TranslateEngine, TranslateEngines} from "./translate/const/translate-engines";
-import {YoudaoConfigs} from "./translate/engines/youdao/youdao-configs";
-
-// Remember to rename these classes and interfaces!
-
+import {I18n, LangTypeAndAuto, I18nKey} from "./util/i18n";
+import {TranslateEngine } from "./translate/const/translate-engines";
 
 export default class DictionaryPlugin extends Plugin {
 	settings: DictionarySettings;

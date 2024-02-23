@@ -1,7 +1,12 @@
 {
-  "confirm": "Confirm",
-  "disable": "Disable",
-  "enable": "Enable",
-  "goback": "Go Back",
-  "submit": "Submit"
-  }
+	"confirm": "Confirm",
+	"disable": "Disable",
+	"enable": "Enable",
+	"goback": "Go Back",
+	"submit": "Submit",
+	"engines_chooser_div_title": "Please choose your translate engine",
+	"translate_engine": "Translate Engine",
+	"youdao": "Youdao Translator",
+	"youdao_app_key": "AppKey",
+	"youdao_app_secret": "AppSecret"
+}

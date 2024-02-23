@@ -2,10 +2,11 @@ import Mustache from "mustache";
 import { moment } from "obsidian";
 
 import { LANGS } from "../langs";
+import {TranslateEngines} from "../translate/const/translate-engines";
 
 export type LangType = keyof typeof LANGS;
 export type LangTypeAndAuto = LangType | "auto";
-export type TransItemType = keyof (typeof LANGS)["en"];
+export type I18nKey = keyof (typeof LANGS)["en"]
 
 export class I18n {
   lang: LangTypeAndAuto;
@@ -22,7 +23,7 @@ export class I18n {
     await this.saveSettingFunc(anotherLang);
   }
 
-  _get(key: TransItemType) {
+  _get(key: I18nKey) {
     let realLang = this.lang;
     if (this.lang === "auto" && moment.locale().replace("-", "_") in LANGS) {
       realLang = moment.locale().replace("-", "_") as LangType;
@@ -36,7 +37,7 @@ export class I18n {
     return res;
   }
 
-  t(key: TransItemType, vars?: Record<string, string>) {
+  t(key: I18nKey, vars?: Record<string, string>) {
     if (vars === undefined) {
       return this._get(key);
     }

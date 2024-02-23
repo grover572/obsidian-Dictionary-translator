@@ -6,21 +6,22 @@ export interface TranslationStrategy {
 	translate(text: string): TranslateResponse;
 }
 
-export interface EngineConfig {
+export class EngineConfig {
 	[key: string]: any;
 }
 
 export interface TranslateEngine {
-	code: string;
 	strategy: new (config: EngineConfig) => TranslationStrategy;
 }
 
-export const TranslateEngines: Record<string, TranslateEngine> = {
+export type SupportEngine = "youdao"
+
+export const TranslateEngines: Record<SupportEngine, TranslateEngine> = {
 	youdao: {
-		code: 'youdao',
 		strategy: YoudaoTranslator,
 	}
 };
+
 
 
 
