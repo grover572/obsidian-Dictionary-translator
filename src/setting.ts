@@ -6,116 +6,160 @@ import {createElement, Eye, EyeOff} from "lucide";
 import {YoudaoConfigs} from "./translate/engines/youdao/youdao-configs";
 
 export interface DictionarySettings {
-	engine: keyof typeof TranslateEngines;
-	lang: LangTypeAndAuto,
-	config: EngineConfig
+    engine: keyof typeof TranslateEngines;
+    lang: LangTypeAndAuto,
+    config: EngineConfig
 }
 
 export const DEFAULT_SETTINGS: DictionarySettings = {
-	engine: "youdao",
-	lang: "auto",
-	config: new YoudaoConfigs("","")
+    engine: "youdao",
+    lang: "auto",
+    config: new YoudaoConfigs("", "")
 }
 
 export class DictionarySettingTab extends PluginSettingTab {
-	plugin: DictionaryPlugin;
+    plugin: DictionaryPlugin;
 
-	constructor(app: App, plugin: DictionaryPlugin) {
-		super(app, plugin);
-		this.plugin = plugin;
-	}
+    constructor(app: App, plugin: DictionaryPlugin) {
+        super(app, plugin);
+        this.plugin = plugin;
+    }
 
-	display(): void {
+    display(): void {
 
-		const {containerEl} = this;
+        const {containerEl} = this;
 
-		containerEl.empty();
-		const i18n = (x: I18nKey, vars?: any) => {
-			return this.plugin.i18n.t(x, vars);
-		};
+        containerEl.empty();
+        const i18n = (x: I18nKey, vars?: any) => {
+            return this.plugin.i18n.t(x, vars);
+        };
 
-		// title
-		containerEl.createEl("h1", {text: "Dictionary Settings"});
+        // title
+        containerEl.createEl("h1", {text: "Dictionary Settings"});
 
-		// Div : enginesChooserDiv
-		const enginesChooserDiv = containerEl.createDiv();
-		enginesChooserDiv.createEl("h2", {text: i18n("engines_chooser_div_title")});
+        // Div : enginesChooserDiv
+        const enginesChooserDiv = containerEl.createDiv();
 
-		// TODO enginesChooserDiv插入操作文档
+        /**
+         * ==========
+         * ==youdao==
+         * ==========
+         */
+        const youdaoEngineDiv = containerEl.createDiv();
+        youdaoEngineDiv.toggleClass("settings-hide", this.plugin.settings.engine !== "youdao")
 
-		const engine = new Setting(enginesChooserDiv);
-		engine.setName(i18n("translate_engine"))
-			.addDropdown(cb => cb.addOptions(this.getEnginesOptions())
-				.setValue(`${this.plugin.settings.engine}`)
-				.onChange(async (value) => {
-					this.plugin.settings.engine = value as SupportEngine;
-					await this.plugin.saveSettings();
-				})
-			);
+        youdaoEngineDiv.createEl("h5", {text: i18n("guide", {engine: i18n("youdao")}) + ":"})
+        let youdaoGuideP = youdaoEngineDiv.createEl("p");
+        youdaoGuideP.createEl("a", {
+            href: "https://ai.youdao.com/console/",
+            text: i18n("youdao_console"),
+        });
+        youdaoGuideP.createEl("span", {text: i18n("youdao_guide")})
 
-		// youdao
-		const youdaoEngineDiv = containerEl.createDiv();
-		youdaoEngineDiv.addClass("youdao-hide")
-		new Setting(youdaoEngineDiv)
-			.setName(i18n("youdao_app_key"))
-			.setDesc(i18n("youdao_app_key"))
-			.addText((text) => {
-				wrapTextWithPasswordHide(text);
-				text
-					.setValue(`${this.plugin.settings.config['appKey']}`)
-					.onChange(async (value) => {
-						this.plugin.settings.config['appKey'] = value
-						await this.plugin.saveSettings();
-					});
-			});
+        new Setting(youdaoEngineDiv)
+            .setName(i18n("youdao_app_key"))
+            .setDesc("AppKey")
+            .addText((text) => {
+                wrapTextWithPasswordHide(text);
+                text
+                    .setValue(`${this.plugin.settings.config['appKey']}`)
+                    .onChange(async (value) => {
+                        this.plugin.settings.config['appKey'] = value
+                        await this.plugin.saveSettings();
+                    });
+            });
 
-		new Setting(youdaoEngineDiv)
-			.setName(i18n("youdao_app_secret"))
-			.setDesc(i18n("youdao_app_secret"))
-			.addText((text) => {
-				wrapTextWithPasswordHide(text);
-				text
-					.setValue(`${this.plugin.settings.config['appSecret']}`)
-					.onChange(async (value) => {
-						this.plugin.settings.config['appSecret'] = value
-						await this.plugin.saveSettings();
-					});
-			});
+        new Setting(youdaoEngineDiv)
+            .setName(i18n("youdao_app_secret"))
+            .setDesc("AppSecret")
+            .addText((text) => {
+                wrapTextWithPasswordHide(text);
+                text
+                    .setValue(`${this.plugin.settings.config['appSecret']}`)
+                    .onChange(async (value) => {
+                        this.plugin.settings.config['appSecret'] = value
+                        await this.plugin.saveSettings();
+                    });
+            });
 
-	}
+        /**
+         * ==========
+         * ==google==
+         * ==========
+         */
+        const googleEngineDiv = containerEl.createDiv();
+        googleEngineDiv.toggleClass("settings-hide", this.plugin.settings.engine !== "google")
 
-	getEnginesOptions(): Record<string, string> {
-		const options: Record<string, string> = {}
-		Object.entries(TranslateEngines).forEach(([key, value]) => {
-			options[key] = this.plugin.i18n.t(key as I18nKey)
-		});
-		return options
-	}
+        googleEngineDiv.createEl("h5", {text: i18n("guide", {engine: i18n("google")}) + ":"})
+        let googleGuideP = googleEngineDiv.createEl("p");
+        googleEngineDiv.createEl("a", {
+            href: "https://ai.youdao.com/console/",
+            text: i18n("youdao_console"),
+        });
+        googleEngineDiv.createEl("span", {text: i18n("youdao_guide")})
+
+        new Setting(googleEngineDiv)
+            .setName(i18n("youdao_app_key"))
+            .setDesc("AppKey")
+            .addText((text) => {
+                wrapTextWithPasswordHide(text);
+                text
+                    .setValue(`${this.plugin.settings.config['appKey']}`)
+                    .onChange(async (value) => {
+                        this.plugin.settings.config['appKey'] = value
+                        await this.plugin.saveSettings();
+                    });
+            });
+
+
+        const engine = new Setting(enginesChooserDiv);
+        engine.setName(i18n("translate_engine"))
+            .setDesc(i18n("engines_chooser_div_title"))
+            .addDropdown(cb => cb.addOptions(this.getEnginesOptions())
+                .setValue(`${this.plugin.settings.engine}`)
+                .onChange(async (value) => {
+                    console.log("engine:" + value)
+                    this.plugin.settings.engine = value as SupportEngine;
+                    youdaoEngineDiv.toggleClass("settings-hide", value !== "youdao")
+                    googleEngineDiv.toggleClass("settings-hide", value !== "google")
+                    await this.plugin.saveSettings();
+                })
+            );
+
+    }
+
+    getEnginesOptions(): Record<string, string> {
+        const options: Record<string, string> = {}
+        Object.entries(TranslateEngines).forEach(([key, value]) => {
+            options[key] = this.plugin.i18n.t(key as I18nKey)
+        });
+        return options
+    }
 
 }
 
 const getEyesElements = () => {
-	const eyeEl = createElement(Eye);
-	const eyeOffEl = createElement(EyeOff);
-	return {
-		eye: eyeEl.outerHTML,
-		eyeOff: eyeOffEl.outerHTML,
-	};
+    const eyeEl = createElement(Eye);
+    const eyeOffEl = createElement(EyeOff);
+    return {
+        eye: eyeEl.outerHTML,
+        eyeOff: eyeOffEl.outerHTML,
+    };
 };
 
 const wrapTextWithPasswordHide = (text: TextComponent) => {
-	const {eye, eyeOff} = getEyesElements();
-	const hider = text.inputEl.insertAdjacentElement("afterend", createSpan())!;
-	// the init type of hider is "hidden" === eyeOff === password
-	hider.innerHTML = eyeOff;
-	hider.addEventListener("click", (e) => {
-		const isText = text.inputEl.getAttribute("type") === "text";
-		hider.innerHTML = isText ? eyeOff : eye;
-		text.inputEl.setAttribute("type", isText ? "password" : "text");
-		text.inputEl.focus();
-	});
+    const {eye, eyeOff} = getEyesElements();
+    const hider = text.inputEl.insertAdjacentElement("afterend", createSpan())!;
+    // the init type of hider is "hidden" === eyeOff === password
+    hider.innerHTML = eyeOff;
+    hider.addEventListener("click", (e) => {
+        const isText = text.inputEl.getAttribute("type") === "text";
+        hider.innerHTML = isText ? eyeOff : eye;
+        text.inputEl.setAttribute("type", isText ? "password" : "text");
+        text.inputEl.focus();
+    });
 
-	// the init type of text el is password
-	text.inputEl.setAttribute("type", "password");
-	return text;
+    // the init type of text el is password
+    text.inputEl.setAttribute("type", "password");
+    return text;
 };

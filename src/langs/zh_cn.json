@@ -8,6 +8,11 @@
 	"engines_chooser_div_title": "请选择翻译引擎",
 	"translate_engine": "翻译引擎",
 	"youdao": "有道翻译",
-	"youdao_app_key": "AppKey",
-	"youdao_app_secret": "AppSecret"
+	"youdao_app_key": "应用ID",
+	"youdao_app_secret": "应用密钥",
+	"google": "谷歌翻译",
+	"youdao_console": "进入有道智云控制台",
+	"guide": "{{engine}}配置教程",
+	"youdao_guide": "开通文本翻译与语音合成服务，然后获取应用ID与应用密钥。"
+
 }

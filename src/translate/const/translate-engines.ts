@@ -14,11 +14,14 @@ export interface TranslateEngine {
 	strategy: new (config: EngineConfig) => TranslationStrategy;
 }
 
-export type SupportEngine = "youdao"
+export type SupportEngine = "youdao" | "google"
 
 export const TranslateEngines: Record<SupportEngine, TranslateEngine> = {
 	youdao: {
 		strategy: YoudaoTranslator,
+	},
+	google : {
+		strategy: YoudaoTranslator
 	}
 };
 
