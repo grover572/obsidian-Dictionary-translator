@@ -1,4 +1,6 @@
+import {EngineConfig, TranslationStrategy} from "../../const/translate-engines";
 import CryptoJS from 'crypto-js';
+import {YoudaoConfigs} from "./youdao-configs";
 
 // 定义 truncate 函数
 function truncate(q: string): string {
@@ -35,7 +37,7 @@ function jsonp(url: string, data: any, callback: (data: any) => void) {
 }
 
 // 使用 JSONP 函数发送请求
-export default function youdaoTranslate(token: string) {
+export default function youdaoTranslator(token: string) {
 	const salt = (new Date()).getTime();
 	const curtime = Math.round(new Date().getTime() / 1000);
 	jsonp('https://openapi.youdao.com/api', {
@@ -51,3 +53,19 @@ export default function youdaoTranslate(token: string) {
 		console.log(data);
 	});
 }
+
+
+export class YoudaoTranslator implements TranslationStrategy {
+
+	config:YoudaoConfigs;
+
+	constructor(config:EngineConfig) {
+		this.config = <YoudaoConfigs>config;
+	}
+
+	translate(text: string): string {
+		return ""
+	}
+}
+
+

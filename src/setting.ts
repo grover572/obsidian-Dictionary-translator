@@ -1,18 +1,14 @@
 import {App, Modal, PluginSettingTab, Setting} from "obsidian";
 import DictionaryPlugin from "./main";
-import {Token} from "./Token";
-import {YoudaoToken} from "./translate/youdao/youdaoToken";
-import {LangTypeAndAuto} from "./i18n";
+import {LangTypeAndAuto} from "./util/i18n";
 
 export interface DictionarySettings {
 	engine: "youdao" | "tencent" | string;
-	token: Token | null,
 	lang: LangTypeAndAuto
 }
 
 export const DEFAULT_SETTINGS: DictionarySettings = {
 	engine: 'youdao',
-	token: null,
 	lang: "auto"
 }
 
@@ -29,7 +25,7 @@ export class DictionarySettingTab extends PluginSettingTab {
 		const {containerEl} = this;
 		containerEl.empty();
 
-		containerEl.createEl("h1", { text: "Dictionary Settings" });
+		containerEl.createEl("h1", { text: "Dictionary  Settings" });
 		//
 		// const serviceChooserDiv = containerEl.createDiv();
 		// serviceChooserDiv.createEl("h2", { text: t("settings_chooseservice") });
@@ -50,8 +46,8 @@ export class DictionarySettingTab extends PluginSettingTab {
 		const appKey = new Setting(containerEl);
 		appKey.setName("appKey")
 			.addText(component => component.onChange(async value => {
-				console.log(this.plugin.settings.token)
-				this.plugin.settings.token = {appKey:value}
+				// console.log(this.plugin.settings.token)
+				// this.plugin.settings.token = {appKey:value}
 				await this.plugin.saveSettings();
 			}))
 
