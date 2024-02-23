@@ -30,6 +30,7 @@ export class I18n {
       realLang = "en";
     }
 
+	// as (typeof LANGS)["en"]是一种类型断言，它告诉TypeScript我们希望将某个值视为与LANGS["en"]相同类型的值
     const res: string =
       (LANGS[realLang] as (typeof LANGS)["en"])[key] || LANGS["en"][key] || key;
     return res;
