@@ -1,4 +1,4 @@
-import {Token} from "../../interface/Token";
+import {Token} from "../../Token";
 
 export class YoudaoToken implements Token {
 	appKey: string;

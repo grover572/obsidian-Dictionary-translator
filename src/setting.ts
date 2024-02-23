@@ -1,16 +1,19 @@
 import {App, Modal, PluginSettingTab, Setting} from "obsidian";
 import WordBookPlugin from "./main";
-import {Token} from "./interface/Token";
+import {Token} from "./Token";
 import {YoudaoToken} from "./translate/youdao/youdaoToken";
+import {LangTypeAndAuto} from "./i18n";
 
 export interface WordBookSettings {
 	engine: "youdao" | "tencent" | string;
-	token: Token | null
+	token: Token | null,
+	lang: LangTypeAndAuto
 }
 
 export const DEFAULT_SETTINGS: WordBookSettings = {
 	engine: 'youdao',
-	token: null
+	token: null,
+	lang: "auto"
 }
 
 export class WordBookSettingTab extends PluginSettingTab {
@@ -25,6 +28,11 @@ export class WordBookSettingTab extends PluginSettingTab {
 
 		const {containerEl} = this;
 		containerEl.empty();
+
+		// containerEl.createEl("h1", { text: "Remotely Save" });
+		//
+		// const serviceChooserDiv = containerEl.createDiv();
+		// serviceChooserDiv.createEl("h2", { text: t("settings_chooseservice") });
 
 		const engine = new Setting(containerEl);
 		engine.setName('翻译引擎')
