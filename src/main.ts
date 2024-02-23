@@ -1,13 +1,13 @@
 import {App, Menu, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, moment} from 'obsidian';
 import youdaoTranslate from "./translate/youdao/youdaoTranslate";
-import {DEFAULT_SETTINGS, WordBookSettings, WordBookSettingTab} from "./setting";
+import {DEFAULT_SETTINGS, DictionarySettings, DictionarySettingTab} from "./setting";
 import {I18n, LangTypeAndAuto, TransItemType} from "./i18n";
 
 // Remember to rename these classes and interfaces!
 
 
-export default class WordBookPlugin extends Plugin {
-	settings: WordBookSettings;
+export default class DictionaryPlugin extends Plugin {
+	settings: DictionarySettings;
 	i18n!: I18n;
 
 	async onload() {
@@ -83,7 +83,7 @@ export default class WordBookPlugin extends Plugin {
 		});
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new WordBookSettingTab(this.app, this));
+		this.addSettingTab(new DictionarySettingTab(this.app, this));
 
 		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
 		// Using this function will automatically remove the event listener when this plugin is disabled.

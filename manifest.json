@@ -1,6 +1,6 @@
 {
-	"id": "obsidian-word-book",
-	"name": "WordBook",
+	"id": "obsidian-Dictionary-translator",
+	"name": "Dictionary translator",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
 	"description": "This plug-in is developed for the Chinese, in the summary notes encountered do not know the words, you can add to this word book, easy to review and master in the future.",

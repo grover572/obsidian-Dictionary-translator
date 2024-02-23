@@ -1,25 +1,25 @@
 import {App, Modal, PluginSettingTab, Setting} from "obsidian";
-import WordBookPlugin from "./main";
+import DictionaryPlugin from "./main";
 import {Token} from "./Token";
 import {YoudaoToken} from "./translate/youdao/youdaoToken";
 import {LangTypeAndAuto} from "./i18n";
 
-export interface WordBookSettings {
+export interface DictionarySettings {
 	engine: "youdao" | "tencent" | string;
 	token: Token | null,
 	lang: LangTypeAndAuto
 }
 
-export const DEFAULT_SETTINGS: WordBookSettings = {
+export const DEFAULT_SETTINGS: DictionarySettings = {
 	engine: 'youdao',
 	token: null,
 	lang: "auto"
 }
 
-export class WordBookSettingTab extends PluginSettingTab {
-	plugin: WordBookPlugin;
+export class DictionarySettingTab extends PluginSettingTab {
+	plugin: DictionaryPlugin;
 
-	constructor(app: App, plugin: WordBookPlugin) {
+	constructor(app: App, plugin: DictionaryPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
@@ -29,7 +29,7 @@ export class WordBookSettingTab extends PluginSettingTab {
 		const {containerEl} = this;
 		containerEl.empty();
 
-		// containerEl.createEl("h1", { text: "Remotely Save" });
+		containerEl.createEl("h1", { text: "Dictionary Settings" });
 		//
 		// const serviceChooserDiv = containerEl.createDiv();
 		// serviceChooserDiv.createEl("h2", { text: t("settings_chooseservice") });
