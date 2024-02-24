@@ -84,14 +84,14 @@ export class DictionarySettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName("Connect Test")
-			.setDesc("Check connectivity with translation services")
+			.setName(i18n("connect_test"))
+			.setDesc(i18n("connect_test_desc"))
 			.addButton((bc) => {
-				bc.setButtonText("Test");
+				bc.setButtonText(i18n("test"));
 				bc.onClick(evt => {
-					const translateResponse = this.plugin.getTranslator().translate({
-						from: "en",
-						to: "cn",
+					const translateResponse = this.plugin.getTranslator()?.translate({
+						from: "auto",
+						to: "zh-CHS",
 						words: "hello"
 					});
 					console.log(translateResponse)

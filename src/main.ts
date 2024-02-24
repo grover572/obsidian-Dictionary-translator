@@ -1,9 +1,8 @@
 import {App, Menu, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, moment} from 'obsidian';
-import youdaoTranslator from "./translate/engines/youdao/youdao-translator";
 import {DEFAULT_SETTINGS, DictionarySettings, DictionarySettingTab} from "./setting";
-import {I18n, LangTypeAndAuto, I18nKey} from "./util/i18n";
-import {TranslateEngine, TranslateEngines, TranslationStrategy} from "./translate/const/translate-engines";
-import {YoudaoConfigs} from "./translate/engines/youdao/youdao-configs";
+import {I18n, LangTypeAndAuto} from "./util/i18n";
+import {TranslateEngines, TranslationStrategy} from "./translate/const/translate-engines";
+import {NullConfigError} from "./translate/const/null_config_error";
 
 export default class DictionaryPlugin extends Plugin {
 	settings: DictionarySettings;
@@ -21,7 +20,7 @@ export default class DictionaryPlugin extends Plugin {
 
 		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
 			new Notice("I'm your personal translator");
-			youdaoTranslator("hello");
+			// youdaoTranslator("hello");
 		});
 
 		// Perform additional things with the ribbon
@@ -107,9 +106,13 @@ export default class DictionaryPlugin extends Plugin {
 		await this.saveData(this.settings);
 	}
 
-	getTranslator():TranslationStrategy {
-        this.engine = new TranslateEngines[this.settings.engine].strategy(this.settings.engineConfig);
-		return this.engine;
+	getTranslator(): TranslationStrategy | undefined {
+		try {
+			this.engine = new TranslateEngines[this.settings.engine].strategy(this.settings.engineConfig);
+			return this.engine;
+		} catch (e) {
+			new Notice(this.i18n.t("init_engine_exception", {error: e.message}))
+		}
 	}
 }
 
