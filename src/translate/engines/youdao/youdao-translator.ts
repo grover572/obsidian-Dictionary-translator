@@ -2,6 +2,8 @@ import {EngineConfig, TranslationStrategy} from "../../const/translate-engines";
 import CryptoJS from 'crypto-js';
 import {YoudaoConfigs} from "./youdao-configs";
 import {TranslateResponse} from "../../const/translate-response";
+import {Notice} from "obsidian";
+import {TranslateRequest} from "../../const/translate-request";
 
 
 export class YoudaoTranslator implements TranslationStrategy {
@@ -9,11 +11,15 @@ export class YoudaoTranslator implements TranslationStrategy {
 	config: YoudaoConfigs;
 
 	constructor(config: YoudaoConfigs) {
-		this.config = config;
+		if (config.appKey && config.appSecret) {
+            this.config = config;
+		} else {
+			new Notice("参数缺失");
+		}
 	}
 
-	translate(text: string): TranslateResponse {
-		return ""
+	translate(request: TranslateRequest): TranslateResponse {
+		return this.config
 	}
 
 }

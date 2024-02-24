@@ -2,12 +2,13 @@ import {App, Menu, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab
 import youdaoTranslator from "./translate/engines/youdao/youdao-translator";
 import {DEFAULT_SETTINGS, DictionarySettings, DictionarySettingTab} from "./setting";
 import {I18n, LangTypeAndAuto, I18nKey} from "./util/i18n";
-import {TranslateEngine } from "./translate/const/translate-engines";
+import {TranslateEngine, TranslateEngines, TranslationStrategy} from "./translate/const/translate-engines";
+import {YoudaoConfigs} from "./translate/engines/youdao/youdao-configs";
 
 export default class DictionaryPlugin extends Plugin {
 	settings: DictionarySettings;
 	i18n!: I18n;
-	engine: TranslateEngine;
+	private engine: TranslationStrategy;
 
 	async onload() {
 
@@ -104,6 +105,11 @@ export default class DictionaryPlugin extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
+	}
+
+	getTranslator():TranslationStrategy {
+        this.engine = new TranslateEngines[this.settings.engine].strategy(this.settings.engineConfig);
+		return this.engine;
 	}
 }
 

@@ -1,9 +1,10 @@
 import {YoudaoTranslator} from "../engines/youdao/youdao-translator";
 import {TranslateResponse} from "./translate-response";
+import {TranslateRequest} from "./translate-request";
 
 export interface TranslationStrategy {
 	config: EngineConfig;
-	translate(text: string): TranslateResponse;
+	translate(request: TranslateRequest): TranslateResponse;
 }
 
 export class EngineConfig {
@@ -14,14 +15,11 @@ export interface TranslateEngine {
 	strategy: new (config: EngineConfig) => TranslationStrategy;
 }
 
-export type SupportEngine = "youdao" | "google"
+export type SupportEngine = "youdao"
 
 export const TranslateEngines: Record<SupportEngine, TranslateEngine> = {
 	youdao: {
 		strategy: YoudaoTranslator,
-	},
-	google : {
-		strategy: YoudaoTranslator
 	}
 };
 
