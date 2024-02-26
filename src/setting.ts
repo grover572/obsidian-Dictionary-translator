@@ -5,6 +5,7 @@ import {EngineConfig, SupportEngine, TranslateEngines} from "./translate/const/t
 import {createElement, Eye, EyeOff} from "lucide";
 import {YoudaoConfigs} from "./translate/engines/youdao/youdao-configs";
 import {logo_image} from "./assets/engine-logo/logos";
+import {TranslateResponse} from "./translate/const/translate-response";
 
 export interface DictionarySettings {
 	engine: keyof typeof TranslateEngines;
@@ -91,12 +92,18 @@ export class DictionarySettingTab extends PluginSettingTab {
 			.addButton((bc) => {
 				bc.setButtonText(i18n("test"));
 				bc.onClick(async evt => {
+					const words = "hello";
 					const translateResponse = await this.plugin.getTranslator()?.translate({
 						from: "en",
 						to: "cn",
-						words: "hello"
+						words
 					});
-					console.log(translateResponse)
+					if (translateResponse) {
+						new Notice(`${words} => ${translateResponse}`)
+						console.log(translateResponse)
+					} else {
+
+					}
 				})
 			})
 

@@ -1,12 +1,11 @@
 import {YoudaoTranslator} from "../engines/youdao/youdao-translator";
 import {TranslateResponse} from "./translate-response";
 import {TranslateRequest} from "./translate-request";
-import {Plugin} from "obsidian";
 import DictionaryPlugin from "../../main";
 
 export abstract class TranslationStrategy {
     config: EngineConfig;
-    plugin: Plugin;
+    plugin: DictionaryPlugin;
 
     abstract translate(request: TranslateRequest): Promise<TranslateResponse>; // async func
 }
@@ -29,10 +28,3 @@ export const TranslateEngines: Record<SupportEngine, TranslateEngine> = {
         strategy: YoudaoTranslator,
     }
 };
-
-
-
-
-
-
-
