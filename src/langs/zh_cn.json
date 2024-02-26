@@ -12,7 +12,7 @@
 	"youdao_app_secret": "应用密钥",
 	"google": "谷歌翻译",
 	"youdao_console": "进入有道智云控制台",
-	"guide": "{{engine}}配置教程",
+	"guide": "{{engine}}引擎配置 ",
 	"youdao_guide": "开通文本翻译与语音合成服务，然后获取应用ID与应用密钥。",
 	"connect_test": "连通测试",
 	"connect_test_desc": "检查与翻译引擎的连通性，插件会将 \"hello\" 翻译为你的语言，请检查结果的正确性。",

@@ -11,7 +11,7 @@
 	"youdao_app_key": "AppKey",
 	"youdao_app_secret": "AppSecret",
 	"youdao_console": "Click to open YoudaoYun Console,",
-	"guide": "{{engine}}' Guide",
+	"guide": "{{engine}} Configure ",
 	"youdao_guide": "Open text translation and speech synthesis services.Then get AppKey and AppSecret.",
 	"connect_test": "Connect Test",
 	"connect_test_desc": "Check connectivity with translation services,the plugin will translate '你好' into your language, please check whether the result is correct",
