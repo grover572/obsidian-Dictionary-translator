@@ -2,7 +2,6 @@ import Mustache from "mustache";
 import { moment } from "obsidian";
 
 import { LANGS } from "../langs";
-import {TranslateEngines} from "../translate/const/translate-engines";
 
 export type LangType = keyof typeof LANGS;
 export type LangTypeAndAuto = LangType | "auto";

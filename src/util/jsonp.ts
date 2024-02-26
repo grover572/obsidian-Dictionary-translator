@@ -1,12 +1,10 @@
 import originJSONP from 'jsonp'
 
-export default function jsonp (url:string, data:Record<string, any>, option?:Record<string, any>):Promise<any> {
+export default function jsonp<T> (url:string, data:Record<string, any>, option?:Record<string, any>):Promise<T> {
 	// 拼接url时判断是否已有问号
 	url += (url.indexOf('?') > -1) ? '&' : '?' + param(data)
-	return new Promise((resolve, reject) => {
-		console.log(data)
+	return new Promise<T>((resolve, reject) => {
 		originJSONP(url, option, (err, data) => {
-			// 如果没错误，就resolve(data)
 			if (!err) {
 				resolve(data)
 			} else {

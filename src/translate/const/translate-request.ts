@@ -1,5 +1,7 @@
+import {from, to} from "./translate-engines";
+
 export interface TranslateRequest {
-	from: string;
-	to: string;
+	from: from;
+	to: to;
 	words: string
 }

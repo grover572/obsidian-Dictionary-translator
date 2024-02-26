@@ -15,7 +15,8 @@
 	"guide": "{{engine}}配置教程",
 	"youdao_guide": "开通文本翻译与语音合成服务，然后获取应用ID与应用密钥。",
 	"connect_test": "连通测试",
-	"connect_test_desc": "检查与翻译引擎的连通性",
+	"connect_test_desc": "检查与翻译引擎的连通性，插件会将 \"hello\" 翻译为你的语言，请检查结果的正确性。",
 	"test": "测试",
-	"init_engine_exception": "配置翻译引擎时出现错误: {{error}}"
+	"init_engine_exception": "配置翻译引擎时出现错误: {{error}}",
+	"engine_translate_exception": "{{engine}}引擎 出现一个错误. 错误代码:{{code}}"
 }
