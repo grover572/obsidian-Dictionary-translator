@@ -92,7 +92,7 @@ export class DictionarySettingTab extends PluginSettingTab {
             .addButton((bc) => {
                 bc.setButtonText(i18n("test"));
                 bc.onClick(async evt => {
-                    const words = "hello world";
+                    const words = "hello";
                     const translateResponse = await this.plugin.getTranslator()?.translate({
                         from: "en",
                         to: "cn",
