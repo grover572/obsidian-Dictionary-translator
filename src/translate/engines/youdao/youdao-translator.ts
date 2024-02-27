@@ -12,8 +12,8 @@ import {from, to} from "../../const/translate-engines";
 
 const YOUDAO_API = "https://openapi.youdao.com/api"
 
-const LANG_MAP: { [key in from]: string } = {
-    en: "en",
+const LANG_MAP: { [key in from | to]: string } = {
+	en: "en",
     cn: "zh-CHS"
 }
 

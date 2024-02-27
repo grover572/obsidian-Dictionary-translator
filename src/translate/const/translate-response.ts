@@ -16,5 +16,6 @@ export interface TranslateResponse {
 		value: string
 	}]
 	isWord: boolean // 是否是单词
-	link: [string]
+	link: [string],
+
 }

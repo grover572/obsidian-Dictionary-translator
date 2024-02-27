@@ -26,3 +26,8 @@ If your plugin does not need CSS, delete this file.
 	font-size: 15px;
 	line-height: 30px;
 }
+
+.setting-config-box {
+	border-top: 1px gainsboro solid;
+	padding-top: 10px;
+}
