@@ -18,5 +18,9 @@
 	"test": "Test",
 	"init_engine_exception": "An exception occurred when the engine was configured: {{error}}",
 	"engine_translate_exception": "{{engine}} Engine has a exception. ErrorCode:{{code}}",
-	"connect_test_success": "Connect Success"
+	"connect_test_success": "Connect Success",
+	"first_target_lang": "Default Target Language",
+	"base_setting": " - Base Setting",
+	"first_target_lang_desc": "Default translation target language",
+	"tran2target": " ✍ Translation the selected content"
 }

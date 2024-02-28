@@ -19,5 +19,11 @@
 	"test": "测试",
 	"init_engine_exception": "配置翻译引擎时出现错误: {{error}}",
 	"engine_translate_exception": "{{engine}}引擎 出现一个错误. 错误代码:{{code}}",
-	"connect_test_success": "连通成功"
+	"connect_test_success": "连通成功",
+	"first_target_lang": "默认目标语言",
+	"base_setting": " · 基础设置",
+	"first_target_lang_desc": "翻译时默认的目标语言",
+	"tran2target": " ✍︎ 翻译选中内容"
+
+
 }

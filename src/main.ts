@@ -1,7 +1,8 @@
 import {App, Menu, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, moment} from 'obsidian';
 import {DEFAULT_SETTINGS, DictionarySettings, DictionarySettingTab} from "./setting";
-import {I18n, LangTypeAndAuto} from "./util/i18n";
+import {I18n, I18nKey, LangTypeAndAuto} from "./util/i18n";
 import {TranslateEngines, TranslationStrategy} from "./translate/const/translate-engines";
+import {getLangName} from "./translate/const/support-lang";
 
 export default class DictionaryPlugin extends Plugin {
     settings: DictionarySettings;
@@ -12,60 +13,43 @@ export default class DictionaryPlugin extends Plugin {
 
         await this.loadSettings();
 
-        // const token = "hello"
-        // const salt = (new Date()).getTime();
-        // const curTime = Math.round(new Date().getTime() / 1000);
-        // const len = token.length;
-        // console.log(token)
-        // const sign = CryptoJS.SHA256("7476cfed3071763c" + token + salt + curTime + "hQUJI5m5hf38mVwYW8Zw4hVycYavBqNX").toString(CryptoJS.enc.Hex)
-        //
-        //
-        // if (len > 20) token = token.substring(0, 10) + len + token.substring(len - 10, len);
-        //
-        // jsonp('https://openapi.youdao.com/api', {
-        // 	appKey: "",
-        // 	from: "zh-CHS",
-        // 	to: "en",
-        // 	q: "您好，欢迎再次使用有道智云文本翻译API接口服务",
-        // 	signType: "v3",curTime
-        // })
-        // 	.then(res => console.log(res))
-        // 	.catch(error => console.log(error))
-
         this.i18n = new I18n(this.settings.lang!, async (lang: LangTypeAndAuto) => {
             this.settings.lang = lang;
             await this.saveSettings();
         });
 
-        const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
-            new Notice("I'm your personal translator");
-            // youdaoTranslator("hello");
-        });
+        const t = (x: I18nKey, vars?: any) => {
+            return this.i18n.t(x, vars);
+        };
+
+        // const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
+        // 	new Notice("I'm your personal translator");
+        // 	// youdaoTranslator("hello");
+        // });
 
         // Perform additional things with the ribbon
-        ribbonIconEl.addClass('my-plugin-ribbon-class');
+        // ribbonIconEl.addClass('my-plugin-ribbon-class');
 
         // This adds a status bar item to the bottom of the app. Does not work on mobile apps.
-        const statusBarItemEl = this.addStatusBarItem();
-        statusBarItemEl.setText('Status Bar Text');
+        // const statusBarItemEl = this.addStatusBarItem();
+        // statusBarItemEl.setText('Status Bar Text');
 
         // This adds a simple command that can be triggered anywhere
-        this.addCommand({
-            id: 'open-sample-modal-simple',
-            name: 'Open sample modal (simple)',
-            callback: () => {
-                new SampleModal(this.app).open();
-            }
-        });
+        // this.addCommand({
+        // 	id: 'open-sample-modal-simple',
+        // 	name: 'Open sample modal (simple)',
+        // 	callback: () => {
+        // 		new SampleModal(this.app).open();
+        // 	}
+        // });
 
         this.registerEvent(
             this.app.workspace.on("editor-menu", (menu, editor, view) => {
                 menu.addItem((item) => {
                     item
-                        .setTitle("🔃  英译汉")
-                        .setIcon("🔃")
+                        .setTitle(t("tran2target"))
                         .onClick(async () => {
-                            console.log(editor.getSelection())
+                            console.log(await this.getTranslator()?.translate({to: this.settings.targetLang, words: editor.getSelection()}))
                         });
                 });
             })
@@ -114,7 +98,7 @@ export default class DictionaryPlugin extends Plugin {
     }
 
     onunload() {
-
+        new Notice("Bye ～ 🙋🏻 ")
     }
 
     async loadSettings() {
@@ -127,7 +111,7 @@ export default class DictionaryPlugin extends Plugin {
 
     getTranslator(): TranslationStrategy | undefined {
         try {
-            this.engine = new TranslateEngines[this.settings.engine].strategy(this.settings.engineConfig, this);
+            this.engine = this.engine || new TranslateEngines[this.settings.engine].strategy(this.settings.engineConfig, this);
             return this.engine;
         } catch (e) {
             new Notice(this.i18n.t("init_engine_exception", {error: e.message}))

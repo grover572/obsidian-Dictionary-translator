@@ -17,10 +17,6 @@ export class I18n {
     this.lang = lang;
     this.saveSettingFunc = saveSettingFunc;
   }
-  async changeTo(anotherLang: LangTypeAndAuto) {
-    this.lang = anotherLang;
-    await this.saveSettingFunc(anotherLang);
-  }
 
   _get(key: I18nKey) {
     let realLang = this.lang;

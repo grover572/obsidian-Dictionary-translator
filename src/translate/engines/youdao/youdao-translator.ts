@@ -8,14 +8,9 @@ import {findEmptyKeys} from "../../../util/utils";
 import jsonp from "../../../util/jsonp";
 import {Notice} from "obsidian";
 import DictionaryPlugin from "../../../main";
-import {from, to} from "../../const/translate-engines";
+import {from} from "../../const/translate-engines";
 
 const YOUDAO_API = "https://openapi.youdao.com/api"
-
-const LANG_MAP: { [key in from | to]: string } = {
-	en: "en",
-    cn: "zh-CHS"
-}
 
 export class YoudaoTranslator implements TranslationStrategy {
     plugin: DictionaryPlugin;
@@ -36,7 +31,8 @@ export class YoudaoTranslator implements TranslationStrategy {
                 appKey: this.config.appKey,
                 q: request.words,
                 signType: "v3",
-                ...this.covertLang(request),
+                from: request.from,
+                to: request.to,
                 ...this.generateSign(request.words)
             }));
         } catch (error) {
@@ -66,6 +62,7 @@ export class YoudaoTranslator implements TranslationStrategy {
             new Notice(message);
             throw new Error(message)
         }
+        console.log(youdaoApiResponse)
         const lang = youdaoApiResponse.l.split("2");
         const result: TranslateResponse | any = {
             isWord: youdaoApiResponse.isWord,
@@ -76,7 +73,7 @@ export class YoudaoTranslator implements TranslationStrategy {
         };
         return youdaoApiResponse.isWord ? {
             ...result,
-            speeches: [{
+            speeches: result.from == "en" ? [{
                 phonetic: youdaoApiResponse?.basic?.["uk-phonetic"],
                 speech: youdaoApiResponse?.basic?.["uk-speech"],
                 area: "uk"
@@ -84,7 +81,7 @@ export class YoudaoTranslator implements TranslationStrategy {
                 phonetic: youdaoApiResponse?.basic?.["us-phonetic"],
                 speech: youdaoApiResponse?.basic?.["us-speech"],
                 area: "us"
-            }],
+            }] : [],
             explains: youdaoApiResponse.basic.explains,
             extensions: youdaoApiResponse.basic?.wfs?.map(item => ({name: item?.wf?.name, value: item?.wf?.value})),
             isWord: youdaoApiResponse.isWord,
@@ -94,10 +91,6 @@ export class YoudaoTranslator implements TranslationStrategy {
             speeches: [{speech: youdaoApiResponse?.speakUrl}],
             link: [youdaoApiResponse.mTerminalDict.url]
         };
-    }
-
-    private covertLang(request: TranslateRequest): { from: string, to: string } {
-        return {from: LANG_MAP[request.from], to: LANG_MAP[request.to]}
     }
 }
 

@@ -8,26 +8,39 @@ If your plugin does not need CSS, delete this file.
 */
 
 .settings-hide {
-	display: none;
+    display: none;
 }
 
 .setting-engine-header {
-	display: flex;
-	justify-content: space-between;
-	height: 30px;
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
 }
 
 .setting-engine-header img {
-	transform: scale(0.8);
+    transform: scale(0.8);
 }
 
 .setting-engine-header .guide {
-	font-weight: bolder;
-	font-size: 15px;
-	line-height: 30px;
+    font-weight: bolder;
+    font-size: 15px;
+    line-height: 30px;
+}
+
+.setting-title {
+    font-weight: bolder;
+    font-size: 15px;
+    line-height: 30px;
+    height: 40px;
+    border-top: 1px gainsboro solid;
+    padding-top: 10px;
+}
+
+.setting-title+.setting-item {
+    border-top: none;
 }
 
 .setting-config-box {
-	border-top: 1px gainsboro solid;
-	padding-top: 10px;
+    border-top: 1px gainsboro solid;
+    padding-top: 10px;
 }
