@@ -26,6 +26,15 @@ export default defineComponent({
 		add_one() {
 			this.count += 1;
 		}
+	},
+	mounted(){
+		console.log("我被挂载")
+	},
+	unmounted(){
+		console.log("我被卸载")
+	},
+	destroyed(){
+		console.log("我被销毁")
 	}
 })
 </script>
