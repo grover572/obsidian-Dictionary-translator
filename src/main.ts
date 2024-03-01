@@ -2,7 +2,8 @@ import {App, Menu, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab
 import {DEFAULT_SETTINGS, DictionarySettings, DictionarySettingTab} from "./setting";
 import {I18n, I18nKey, LangTypeAndAuto} from "./util/i18n";
 import {TranslateEngines, TranslationStrategy} from "./translate/const/translate-engines";
-import {getLangName} from "./translate/const/support-lang";
+import {createApp} from "vue";
+import TranslationModal from './translate/modal/TranslationModal.vue'
 
 export default class DictionaryPlugin extends Plugin {
     settings: DictionarySettings;
@@ -49,6 +50,7 @@ export default class DictionaryPlugin extends Plugin {
                     item
                         .setTitle(t("tran2target"))
                         .onClick(async () => {
+							new SampleModal(this.app).open();
                             console.log(await this.getTranslator()?.translate({to: this.settings.targetLang, words: editor.getSelection()}))
                         });
                 });
@@ -126,7 +128,9 @@ class SampleModal extends Modal {
 
     onOpen() {
         const {contentEl} = this;
-        contentEl.setText('Woah!');
+		contentEl.empty();
+		// 挂载 SettingTab 组件
+		createApp(TranslationModal).mount(contentEl);
     }
 
     onClose() {
