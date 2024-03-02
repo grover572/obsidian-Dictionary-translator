@@ -1,7 +1,6 @@
 <template>
 	<div>
-		<button @click="add_one">+1</button>
-		<span class="sample-class">{{ count }}</span>
+
 	</div>
 </template>
 
@@ -13,28 +12,35 @@
 </style>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import {defineComponent} from 'vue';
+import {TranslateResponse} from '../const/translate-response';
+import DictionaryPlugin from "../../main";
+import {PropType} from "@vue/runtime-core";
 
 export default defineComponent({
-	name: "TranslationModal",
-	data() {
+	name: 'TranslationModalComponent',
+	props: {
+		response: {
+			type: Object as PropType<TranslateResponse>,
+			required: true
+		},
+		plugin: {
+			type: Object as PropType<DictionaryPlugin>,
+			required: true // 根据需要设置是否必需
+		}
+	},
+	data(){
 		return {
-			count: 0
+
 		}
 	},
-	methods: {
-		add_one() {
-			this.count += 1;
+	computed: {
+		title() {
+			if (this.response && this.plugin) {
+				return this.response.to === this.plugin.settings.targetLang;
+			}
+			return false;
 		}
 	},
-	mounted(){
-		console.log("我被挂载")
-	},
-	unmounted(){
-		console.log("我被卸载")
-	},
-	destroyed(){
-		console.log("我被销毁")
-	}
-})
+});
 </script>
