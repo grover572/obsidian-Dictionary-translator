@@ -20,6 +20,8 @@
 		"@typescript-eslint/parser": "5.29.0",
 		"builtin-modules": "3.3.0",
 		"esbuild": "0.17.3",
+		"eslint": "^8.57.0",
+		"eslint-plugin-vue": "^9.22.0",
 		"naive-ui": "^2.38.1",
 		"obsidian": "latest",
 		"tslib": "2.4.0",

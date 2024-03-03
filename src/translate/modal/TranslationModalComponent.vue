@@ -1,15 +1,8 @@
 <template>
-	<div>
-
+	<div class="t-modal">
+		{{ response }}
 	</div>
 </template>
-
-<style scoped>
-.sample-class {
-	margin-left: 1em;
-	color: #6C31E3;
-}
-</style>
 
 <script lang="ts">
 import {defineComponent} from 'vue';
@@ -34,13 +27,25 @@ export default defineComponent({
 
 		}
 	},
+	mounted(){
+		console.log(this.response)
+	},
 	computed: {
 		title() {
 			if (this.response && this.plugin) {
-				return this.response.to === this.plugin.settings.targetLang;
+				return this.response.to === this.plugin.settings.targetLang ? this.response.translation : this.response.source;
 			}
 			return false;
 		}
 	},
 });
 </script>
+
+
+<style scoped>
+.t-modal {
+	width: 1000px;
+	height: 500px;
+
+}
+</style>
