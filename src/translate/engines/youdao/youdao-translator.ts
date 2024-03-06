@@ -85,7 +85,7 @@ export class YoudaoTranslator implements TranslationStrategy {
             explains: youdaoApiResponse.basic.explains,
             extensions: youdaoApiResponse.basic?.wfs?.map(item => ({name: item?.wf?.name, value: item?.wf?.value})),
             isWord: youdaoApiResponse.isWord,
-            link: [youdaoApiResponse.dict.url]
+            link: [youdaoApiResponse.webdict.url]
         } : {
             ...result,
             speeches: [{speech: youdaoApiResponse?.speakUrl}],

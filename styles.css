@@ -44,3 +44,11 @@ If your plugin does not need CSS, delete this file.
     border-top: 1px gainsboro solid;
     padding-top: 10px;
 }
+
+.translate-card-header {
+	font-size: 25px;
+}
+
+.translate-card-header .icon {
+	vertical-align: baseline;
+}

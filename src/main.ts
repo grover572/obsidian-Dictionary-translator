@@ -3,6 +3,8 @@ import {DEFAULT_SETTINGS, DictionarySettings, DictionarySettingTab} from "./sett
 import {I18n, I18nKey, LangTypeAndAuto} from "./util/i18n";
 import {TranslateEngines, TranslationStrategy} from "./translate/const/translate-engines";
 import {TranslationModal} from "./translate/modal/TranslationModal";
+import "main.css"
+import "styles.css"
 
 export default class DictionaryPlugin extends Plugin {
 	settings: DictionarySettings;
@@ -23,6 +25,8 @@ export default class DictionaryPlugin extends Plugin {
 		const t = (x: I18nKey, vars?: any) => {
 			return this.i18n.t(x, vars);
 		};
+
+		new TranslationModal(this, undefined).open();
 
 		this.registerEvent(
 			this.app.workspace.on("editor-menu", (menu, editor, view) => {
