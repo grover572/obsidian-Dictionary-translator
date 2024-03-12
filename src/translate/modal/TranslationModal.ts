@@ -18,9 +18,10 @@ export class TranslationModal extends Modal {
 
 
 	onOpen() {
-		const {contentEl} = this;
-		contentEl.empty();
-		const app = createApp(TranslationModalComponent, {"response": {
+		const {modalEl} = this;
+		modalEl.empty();
+		const app = createApp(TranslationModalComponent, {
+			"response": {
 				"isWord": true,
 				"from": "en",
 				"to": "zh-CHS",
@@ -70,14 +71,16 @@ export class TranslationModal extends Modal {
 				"link": [
 					"http://mobile.youdao.com/dict?le=eng&q=hello"
 				]
-			}, "plugin": this.plugin});
+			}, "plugin": this.plugin, "closeCallback": () => this.close()
+		});
 		this.component = app;
-		app.mount(contentEl);
+		app.mount(modalEl);
 	}
 
 	onClose() {
-		const {contentEl} = this;
+		console.log("close")
+		const {modalEl} = this;
 		this.component.unmount();
-		contentEl.empty();
+		modalEl.empty();
 	}
 }

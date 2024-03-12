@@ -34,11 +34,21 @@ export default class DictionaryPlugin extends Plugin {
 					item
 						.setTitle(t("tran2target"))
 						.onClick(async () => {
-							const translateResponse = await this.getTranslator()?.translate({
-								to: this.settings.targetLang,
-								words: editor.getSelection()
-							});
-							new TranslationModal(this, translateResponse).open();
+							// const translateResponse = await this.getTranslator()?.translate({
+							// 	to: this.settings.targetLang,
+							// 	words: editor.getSelection()
+							// });
+							new TranslationModal(this, {
+								explains: [undefined],
+								extensions: [{name: "", value: ""}],
+								from: "undefined",
+								isWord: false,
+								link: [""],
+								source: "",
+								speeches: [{area: "", phonetic: "", speech: ""}],
+								to: "",
+								translation: ""
+							}).open();
 						});
 				});
 			})

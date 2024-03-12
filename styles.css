@@ -46,9 +46,14 @@ If your plugin does not need CSS, delete this file.
 }
 
 .translate-card-header {
-	font-size: 25px;
+	font-size: 20px;
 }
 
 .translate-card-header .icon {
 	vertical-align: baseline;
 }
+
+.translate-card-header a {
+	border: none;
+}
+

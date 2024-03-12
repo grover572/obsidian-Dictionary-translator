@@ -125,7 +125,6 @@ export const support_lang: SupportLang = {
 
 export function getLanguageOptions(lang: LangTypeAndAuto): Record<string, string> {
 
-
     let l: "cn" | "en" = "cn";
     if (lang === "en" || (lang === "auto" && moment.locale().replace("-", "_") === "en")) {
         l = "en";
