@@ -26,7 +26,7 @@ export default class DictionaryPlugin extends Plugin {
 			return this.i18n.t(x, vars);
 		};
 
-		new TranslationModal(this, undefined).open();
+		// new TranslationModal(this, undefined).open();
 
 		this.registerEvent(
 			this.app.workspace.on("editor-menu", (menu, editor, view) => {
@@ -38,17 +38,22 @@ export default class DictionaryPlugin extends Plugin {
 							// 	to: this.settings.targetLang,
 							// 	words: editor.getSelection()
 							// });
-							new TranslationModal(this, {
-								explains: [undefined],
-								extensions: [{name: "", value: ""}],
-								from: "undefined",
-								isWord: false,
-								link: [""],
-								source: "",
-								speeches: [{area: "", phonetic: "", speech: ""}],
-								to: "",
-								translation: ""
-							}).open();
+							// new TranslationModal(this, {
+							// 	explains: [undefined],
+							// 	extensions: [{name: "", value: ""}],
+							// 	from: "undefined",
+							// 	isWord: false,
+							// 	link: [""],
+							// 	source: "",
+							// 	speeches: [{area: "", phonetic: "", speech: ""}],
+							// 	to: "",
+							// 	translation: ""
+							// }).open();
+							const translateResponse = await this.getTranslator()?.translate({
+								to: this.settings.targetLang,
+								words: editor.getSelection()
+							});
+							new TranslationModal(this, translateResponse).open();
 						});
 				});
 			})

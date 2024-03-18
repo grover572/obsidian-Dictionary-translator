@@ -65,6 +65,11 @@ If your plugin does not need CSS, delete this file.
 .translate-card-button {
 	margin-top: 10px;
 }
+
+.translate-card-link {
+	width: 100%;
+	height: 300px;
+}
 /*.translate-card .speech {*/
 /*	color: #2080f0;*/
 /*}*/

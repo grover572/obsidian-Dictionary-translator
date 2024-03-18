@@ -20,7 +20,8 @@ export class TranslationModal extends Modal {
 	onOpen() {
 		const {modalEl} = this;
 		modalEl.empty();
-		const app = createApp(TranslationModalComponent, {
+
+		const mock_data = {
 			"response": {
 				"isWord": true,
 				"from": "en",
@@ -71,7 +72,12 @@ export class TranslationModal extends Modal {
 				"link": [
 					"http://mobile.youdao.com/dict?le=eng&q=hello"
 				]
-			}, "plugin": this.plugin, "closeCallback": () => this.close()
+			}
+		};
+		const app = createApp(TranslationModalComponent, {
+			response: this.data,
+			plugin: this.plugin,
+			closeCallback: () => this.close()
 		});
 		this.component = app;
 		app.mount(modalEl);

@@ -15,15 +15,15 @@
         <n-flex vertical>
           <n-flex justify="start" size="large" :wrap="false">
             <n-flex class="speech" v-for="(speech,index) in response.speeches" :key="index">
-              <n-button ghost color="#f1f1f1" @click="speechPlay(index)">
-                <span style="color: black">{{ speech.area?.toUpperCase() + "." }} /{{ speech.phonetic }}/</span>
-                <template #icon>
+              <n-button ghost color="#f1f1f1" @click="speechPlay(index)" v-if="speech.speech">
+                <span style="color: black" v-if="speech.phonetic">{{ speech.area?.toUpperCase() + "." }} /{{ speech.phonetic }}/</span>
+                <template #icon v-if="speech.speech">
                   <n-icon size="20">
                     <PlayIcon/>
                   </n-icon>
                 </template>
               </n-button>
-              <audio controls :src="speech.speech" style="display: none" :ref="'speechAudio'"></audio>
+              <audio v-if="speech.speech" controls :src="speech.speech" style="display: none" :ref="'speechAudio'"></audio>
             </n-flex>
           </n-flex>
           <n-flex>
@@ -34,7 +34,7 @@
             </ul>
           </n-flex>
           <n-flex>
-            <n-table :bordered="true" :single-line="false">
+            <n-table :bordered="true" :single-line="false" v-show="extensionField">
               <thead>
               <tr>
                 <th v-for="v in extensionField">
@@ -53,7 +53,12 @@
           </n-flex>
         </n-flex>
       </n-tab-pane>
-      <n-tab-pane name="chap2" :tab="plugin.i18n.t('into_note')">
+		<n-tab-pane name="chap2" :tab="plugin.i18n.t('web_site')" v-show="response.link">
+			<n-flex>
+				<iframe :src="response.link" class="translate-card-link"></iframe>
+			</n-flex>
+		</n-tab-pane>
+      <n-tab-pane name="append" :tab="plugin.i18n.t('into_note')">
         <n-flex vertical>
           <n-flex>
             <n-dynamic-input>
@@ -110,10 +115,10 @@ export default defineComponent({
   },
   computed: {
     extensionField() {
-      return this.response.extensions.map(ex => ex.name)
+      return this.response.extensions && this.response.extensions.map(ex => ex.name)
     },
     extensionValue() {
-      return this.response.extensions.map(ex => ex.value)
+      return this.response.extensions && this.response.extensions.map(ex => ex.value)
     }
   },
 });

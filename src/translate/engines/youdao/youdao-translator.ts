@@ -89,7 +89,7 @@ export class YoudaoTranslator implements TranslationStrategy {
         } : {
             ...result,
             speeches: [{speech: youdaoApiResponse?.speakUrl}],
-            link: [youdaoApiResponse.mTerminalDict.url]
+            link: [youdaoApiResponse.mTerminalDict.url && youdaoApiResponse.webdict.url]
         };
     }
 }
