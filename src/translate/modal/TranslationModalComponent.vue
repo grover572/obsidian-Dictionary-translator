@@ -16,14 +16,17 @@
           <n-flex justify="start" size="large" :wrap="false">
             <n-flex class="speech" v-for="(speech,index) in response.speeches" :key="index">
               <n-button ghost color="#f1f1f1" @click="speechPlay(index)" v-if="speech.speech">
-                <span style="color: black" v-if="speech.phonetic">{{ speech.area?.toUpperCase() + "." }} /{{ speech.phonetic }}/</span>
+                <span style="color: black" v-if="speech.phonetic">{{
+                    speech.area?.toUpperCase() + "."
+                  }} /{{ speech.phonetic }}/</span>
                 <template #icon v-if="speech.speech">
                   <n-icon size="20">
                     <PlayIcon/>
                   </n-icon>
                 </template>
               </n-button>
-              <audio v-if="speech.speech" controls :src="speech.speech" style="display: none" :ref="'speechAudio'"></audio>
+              <audio v-if="speech.speech" controls :src="speech.speech" style="display: none"
+                     :ref="'speechAudio'"></audio>
             </n-flex>
           </n-flex>
           <n-flex>
@@ -53,17 +56,46 @@
           </n-flex>
         </n-flex>
       </n-tab-pane>
-		<n-tab-pane name="chap2" :tab="plugin.i18n.t('web_site')" v-show="response.link">
-			<n-flex>
-				<iframe :src="response.link" class="translate-card-link"></iframe>
-			</n-flex>
-		</n-tab-pane>
+      <n-tab-pane name="chap2" :tab="plugin.i18n.t('web_site')" v-show="response.link">
+        <n-flex>
+          <iframe :src="response.link" class="translate-card-link"></iframe>
+        </n-flex>
+      </n-tab-pane>
       <n-tab-pane name="append" :tab="plugin.i18n.t('into_note')">
         <n-flex vertical>
           <n-flex>
-            <n-dynamic-input>
-
-            </n-dynamic-input>
+            <n-form
+                ref="formRef"
+                :model="saveData"
+                label-placement="top"
+            >
+              <n-grid :cols="24" :x-gap="24">
+                <n-form-item-gi
+                    :span="24"
+                    v-if="response.speeches"
+                    :label="plugin.i18n.t('pick_voice')"
+                    path="radioGroupValue"
+                    size="large"
+                >
+                  <n-radio-group v-model:value="saveData.speech" name="speechRadio">
+                    <n-radio-button :value="speech.speech"
+                                    v-for="(speech,index) in response.speeches"
+                                    @click="speechPlay(index)"
+                                    :key="index"
+                    >
+                      <span style="color: black" v-if="speech.phonetic">{{
+                          speech.area?.toUpperCase() + "."
+                        }} /{{ speech.phonetic }}/</span>
+                      <audio v-if="speech.speech" controls :src="speech.speech" style="display: none"
+                             :ref="'speechAudio'"></audio>
+                    </n-radio-button>
+                    <n-radio-button @click="recordVoice" :value="recordVoiceFile">
+                      我来录一个
+                    </n-radio-button>
+                  </n-radio-group>
+                </n-form-item-gi>
+              </n-grid>
+            </n-form>
           </n-flex>
         </n-flex>
       </n-tab-pane>
@@ -76,14 +108,28 @@ import {defineComponent} from 'vue';
 import {TranslateResponse} from '../const/translate-response';
 import DictionaryPlugin from "../../main";
 import {PropType} from "@vue/runtime-core";
-import {NFlex, NIcon, NCard, NButton, NTable, NTabs, NTabPane, NDynamicInput} from "naive-ui"
+import {
+  NFlex,
+  NIcon,
+  NCard,
+  NButton,
+  NTable,
+  NTabs,
+  NTabPane,
+  NDynamicInput,
+  NForm,
+  NGrid,
+  NFormItemGi,
+  NRadioGroup,
+  NRadioButton
+} from "naive-ui"
 import PlayIcon from "../../assets/icon/PlayIcon.vue";
 import LinkIcon from "../../assets/icon/LinkIcon.vue";
 import NoteIcon from "../../assets/icon/NoteIcon.vue";
 
 export default defineComponent({
   name: 'TranslationModalComponent',
-  components: {LinkIcon, PlayIcon, NoteIcon, NFlex, NIcon, NCard, NButton, NTable, NTabs, NTabPane, NDynamicInput},
+  components: {LinkIcon, PlayIcon, NoteIcon, NFlex, NIcon, NCard, NButton, NTable, NTabs, NTabPane, NDynamicInput, NForm, NGrid, NFormItemGi, NRadioGroup, NRadioButton},
   props: {
     response: {
       type: Object as PropType<TranslateResponse>,
@@ -99,7 +145,12 @@ export default defineComponent({
     }
   },
   data() {
-    return {}
+    return {
+      saveData: {
+        speech: null
+      },
+      recordVoiceFile: ""
+    }
   },
   methods: {
     speechPlay(index: Number) {
@@ -107,6 +158,9 @@ export default defineComponent({
     },
     addToNode() {
       console.log("addToNode")
+    },
+    recordVoice() {
+      console.log("recordVoice")
     }
   },
 
