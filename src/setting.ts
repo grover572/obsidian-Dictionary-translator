@@ -8,6 +8,9 @@ import {logo_image} from "./assets/engine-logo/logos";
 import {getLanguageOptions, support_lang} from "./translate/const/support-lang";
 
 export interface DictionarySettings {
+    show_radio: boolean;
+    show_link: boolean;
+    attach: string;
     engine: keyof typeof TranslateEngines;
     lang: LangTypeAndAuto,
     targetLang: to,
@@ -15,6 +18,9 @@ export interface DictionarySettings {
 }
 
 export const DEFAULT_SETTINGS: DictionarySettings = {
+    show_radio: true,
+    show_link: true,
+    attach: "",
     engine: "youdao",
     lang: "auto",
     targetLang: moment.locale() in support_lang ? moment.locale() : "zh-CHS",
@@ -175,6 +181,42 @@ export class DictionarySettingTab extends PluginSettingTab {
                     await this.plugin.saveSettings();
                 })
             )
+
+
+        new Setting(baseSettingDiv)
+            .setName(i18n("attach"))
+            .setDesc(i18n("attach_desc"))
+            .addText(text => {
+                text.setPlaceholder(i18n("attach_placeholder"))
+                    .setValue(this.plugin.settings.attach)
+                    .onChange(async (value) => {
+                        this.plugin.settings.attach = value;
+                        await this.plugin.saveSettings();
+                    });
+            });
+
+        new Setting(containerEl)
+            .setName(i18n("show_link"))
+            .setDesc(i18n("show_link_desc"))
+            .addToggle(tc => {
+                tc.setValue(this.plugin.settings.show_link)
+                    .onChange(async (value) => {
+                        this.plugin.settings.show_link = value;
+                        await this.plugin.saveSettings();
+                    })
+            })
+
+        new Setting(containerEl)
+            .setName(i18n("show_radio"))
+            .setDesc(i18n("show_radio_desc"))
+            .addToggle(tc => {
+                tc.setValue(this.plugin.settings.show_radio)
+                    .onChange(async (value) => {
+                        this.plugin.settings.show_radio = value;
+                        await this.plugin.saveSettings();
+                    })
+            })
+
     }
 
     private setConfigValue<T, K extends keyof T, V extends T[K]>(obj: T | undefined, key: K, value: V): T {

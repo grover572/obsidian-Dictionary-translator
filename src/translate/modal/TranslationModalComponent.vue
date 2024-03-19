@@ -14,7 +14,8 @@
       <n-tab-pane name="chap1" tab="预览">
         <n-flex vertical>
           <n-flex justify="start" size="large" :wrap="false">
-            <n-flex class="speech" v-for="(speech,index) in response.speeches" :key="index">
+            <n-flex class="speech" v-for="(speech,index) in response.speeches" :key="index"
+                    v-if="plugin.settings.show_radio">
               <n-button ghost color="#f1f1f1" @click="speechPlay(index)" v-if="speech.speech">
                 <span style="color: black" v-if="speech.phonetic">{{
                     speech.area?.toUpperCase() + "."
@@ -56,7 +57,7 @@
           </n-flex>
         </n-flex>
       </n-tab-pane>
-      <n-tab-pane name="chap2" :tab="plugin.i18n.t('web_site')" v-show="response.link">
+      <n-tab-pane name="chap2" :tab="plugin.i18n.t('web_site')" v-if="response.link && plugin.settings.show_link">
         <n-flex>
           <iframe :src="response.link" class="translate-card-link"></iframe>
         </n-flex>
@@ -82,6 +83,7 @@
                                     v-for="(speech,index) in response.speeches"
                                     @click="speechPlay(index)"
                                     :key="index"
+                                    v-if="plugin.settings.show_radio"
                     >
                       <span style="color: black" v-if="speech.phonetic">{{
                           speech.area?.toUpperCase() + "."
