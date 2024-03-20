@@ -95,6 +95,8 @@
                       我来录一个
                     </n-radio-button>
                   </n-radio-group>
+                  <button @click="startRecord" :disabled="isRecording">开始录音</button>
+                  <button @click="stopRecording" :disabled="!isRecording">停止录音</button>
                 </n-form-item-gi>
               </n-grid>
             </n-form>
@@ -151,7 +153,10 @@ export default defineComponent({
       saveData: {
         speech: null
       },
-      recordVoiceFile: ""
+      recordVoiceFile: "",
+      stream: null,
+      mediaRecorder: null,
+      isRecording: false,
     }
   },
   methods: {
@@ -163,6 +168,38 @@ export default defineComponent({
     },
     recordVoice() {
       console.log("recordVoice")
+    },
+    async startRecord(){
+      try {
+        this.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        this.mediaRecorder = new MediaRecorder(this.stream);
+
+        const chunks = [];
+        this.mediaRecorder.ondataavailable = (e) => {
+          chunks.push(e.data);
+        };
+
+        this.mediaRecorder.onstop = () => {
+          const blob = new Blob(chunks, { type: 'audio/wav' });
+          const url = URL.createObjectURL(blob);
+          const audio = new Audio(url);
+          audio.play();
+        };
+
+        this.mediaRecorder.start();
+        this.isRecording = true;
+      } catch (error) {
+        console.error('Error starting recording:', error);
+      }
+    },
+    stopRecording() {
+      if (this.mediaRecorder && this.isRecording) {
+        this.mediaRecorder.stop();
+        this.stream.getTracks().forEach((track) => {
+          track.stop();
+        });
+        this.isRecording = false;
+      }
     }
   },
 
