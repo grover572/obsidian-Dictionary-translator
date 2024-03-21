@@ -71,6 +71,17 @@ export class YoudaoTranslator implements TranslationStrategy {
             source: youdaoApiResponse.query,
             translation: youdaoApiResponse.translation
         };
+
+        // let boomExplains = [];
+        // if (youdaoApiResponse.isWord) {
+        //     for (let explain of youdaoApiResponse.basic.explains) {
+        //         let boomExplain = {}
+        //         let type = explain.split(".");
+        //         boomExplain.type = type;
+        //
+        //     }
+        // }
+
         return youdaoApiResponse.isWord ? {
             ...result,
             speeches: result.from == "en" ? [{
