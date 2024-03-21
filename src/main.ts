@@ -28,6 +28,7 @@ export default class DictionaryPlugin extends Plugin {
 
 		// new TranslationModal(this, undefined).open();
 
+
 		this.registerEvent(
 			this.app.workspace.on("editor-menu", (menu, editor, view) => {
 				menu.addItem((item) => {

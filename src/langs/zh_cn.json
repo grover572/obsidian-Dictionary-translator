@@ -33,5 +33,6 @@
   "show_link": "链接",
   "show_link_desc": "是否要在单词卡片中展示链接？",
   "show_radio": "音频",
-  "show_radio_desc": "是否要在单词卡片中展示音频？"
+  "show_radio_desc": "是否要在单词卡片中展示音频？",
+	"play_the_radio": "播放音频"
 }
