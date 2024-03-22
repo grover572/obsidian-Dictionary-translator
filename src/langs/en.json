@@ -33,5 +33,6 @@
 	"show_link_desc": "Whether to display web pages",
 	"show_radio": "Show Radio",
 	"show_radio_desc": "Whether to display radio？",
-	"play_the_radio": "play the radio"
+	"play_the_radio": "play the radio",
+	"select_explains": "Select explains"
 }

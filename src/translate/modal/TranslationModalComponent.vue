@@ -62,17 +62,15 @@
 				</n-flex>
 			</n-tab-pane>
 			<n-tab-pane name="append" :tab="plugin.i18n.t('into_note')">
-				<n-flex vertical>
-					<n-form
-						ref="formRef"
-						:model="saveData"
-						label-placement="top"
-					>
-						<n-form-item
-							path="speech"
-						>
-							<template #label>
-								{{ plugin.i18n.t("pick_voice") }}
+				<n-form
+					ref="formRef"
+					:model="saveData"
+					label-placement="top"
+				>
+					<n-form-item path="speech">
+						<template #label>
+							<n-flex vertical>
+								<span>{{ plugin.i18n.t("pick_voice") }}</span>
 								<n-button class="record-button" dashed size="tiny" @click="toggleRecording"
 										  :type="isRecording ? 'info' : ''">
 									<template #icon>
@@ -82,43 +80,43 @@
 									</template>
 									{{ isRecording ? 'Stop Record' : 'Start Record' }}
 								</n-button>
-							</template>
+							</n-flex>
+						</template>
 
-							<n-radio-group v-model:value="saveData.speech" name="speechRadio">
-								<n-flex>
-									<n-radio :value="speech.speech"
-											 @click="speechPlay(speech.speech)"
-											 :key="index"
-											 v-for="(speech,index) in response.speeches"
-											 v-if="plugin.settings.show_radio"
-									>
+						<n-radio-group v-model:value="saveData.speech" name="speechRadio">
+							<n-flex>
+								<n-radio :value="speech.speech"
+										 @click="speechPlay(speech.speech)"
+										 :key="index"
+										 v-for="(speech,index) in response.speeches"
+										 v-if="plugin.settings.show_radio"
+								>
 					                      <span v-if="speech.phonetic">{{
 												  speech.area?.toUpperCase() + "."
 											  }} /{{ speech.phonetic }}/</span>
-										<span v-else>
+									<span v-else>
 												{{ plugin.i18n.t("play_the_radio") }}
 											</span>
-									</n-radio>
-									<n-radio v-for="(speech,index) in selfSpeech" @click="speechPlay(speech)"
-											 :key="index"
-											 :value="speech">
-										{{ `My Record ${index + 1}` }}
-									</n-radio>
-								</n-flex>
-							</n-radio-group>
-						</n-form-item>
-						<n-form-item label="Explains" path="explains" :show-label="false">
-							<n-checkbox >
-								<n-dynamic-tags v-model:value="saveData.explains"/>
-							</n-checkbox>
-<!--							<n-flex vertical>-->
-<!--								<n-flex v-for="(explains,index) in dynamicExplainTags">-->
-<!--									-->
-<!--								</n-flex>-->
-<!--							</n-flex>-->
-						</n-form-item>
-					</n-form>
-				</n-flex>
+								</n-radio>
+								<n-radio v-for="(speech,index) in selfSpeech" @click="speechPlay(speech)"
+										 :key="index"
+										 :value="speech">
+									{{ `My Record ${index + 1}` }}
+								</n-radio>
+							</n-flex>
+						</n-radio-group>
+					</n-form-item>
+					<n-form-item :label="plugin.i18n.t('select_explains')" path="explains">
+						<n-checkbox>
+							<n-dynamic-tags v-model:value="saveData.explains"/>
+						</n-checkbox>
+						<!--							<n-flex vertical>-->
+						<!--								<n-flex v-for="(explains,index) in dynamicExplainTags">-->
+						<!--									-->
+						<!--								</n-flex>-->
+						<!--							</n-flex>-->
+					</n-form-item>
+				</n-form>
 			</n-tab-pane>
 		</n-tabs>
 	</n-card>
@@ -273,7 +271,7 @@ export default defineComponent({
 		extensionValue() {
 			return this.response.extensions && this.response.extensions.map(ex => ex.value)
 		},
-		dynamicExplainTags(){
+		dynamicExplainTags() {
 
 		}
 	},
