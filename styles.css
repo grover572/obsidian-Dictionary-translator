@@ -80,6 +80,20 @@ If your plugin does not need CSS, delete this file.
 	height: 300px;
 }
 
-.translate-card-header .record-button {
+.translate-card .record-button {
 	margin-left: 5px;
+}
+
+.translate-card .explain-card {
+	padding: 3px;
+}
+
+.translate-card .explain-card:hover {
+	background-color: #F5F5F5;
+}
+
+
+.translate-card button:not(.clickable-icon) {
+	background-color: transparent;
+	box-shadow: none;
 }
