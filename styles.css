@@ -89,9 +89,8 @@ If your plugin does not need CSS, delete this file.
 }
 
 .translate-card .explain-card:hover {
-	background-color: #F5F5F5;
+	background-color: rgba(245, 245, 245, 0.69);
 }
-
 
 .translate-card button:not(.clickable-icon) {
 	background-color: transparent;

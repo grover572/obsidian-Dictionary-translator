@@ -4,7 +4,7 @@ export interface TranslateResponse {
     from: from
     to: to
     source: string
-    translation: string
+    translation: [string]
     speeches?: [{ //读音
         phonetic: string, // 音标
         speech: string, // 发音

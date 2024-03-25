@@ -16,10 +16,14 @@
           <n-flex justify="start" size="large" :wrap="false">
             <n-flex class="speech" v-for="(speech,index) in response.speeches" :key="index"
                     v-if="plugin.settings.show_radio">
-              <n-button ghost color="#f1f1f1" v-if="speech.speech" @click="speechPlay(speech.speech)">
-                <span style="color: black" v-if="speech.phonetic">{{
+              <n-button ghost style="color: black" color="#f1f1f1" v-if="speech.speech"
+                        @click="speechPlay(speech.speech)">
+                <span v-if="speech.phonetic">{{
                     speech.area?.toUpperCase() + "."
                   }} /{{ speech.phonetic }}/</span>
+                <span v-else>
+                  {{ plugin.i18n.t("play_the_radio") }}
+                </span>
                 <template #icon v-if="speech.speech">
                   <n-icon size="20">
                     <PlayIcon/>
@@ -31,7 +35,7 @@
           </n-flex>
           <n-flex>
             <ul style="margin-left: -20px">
-              <li v-for="explain in response.explains">
+              <li v-for="explain in (response.isWord ? response.explains : response.translation)">
                 {{ explain }}
               </li>
             </ul>
@@ -103,15 +107,35 @@
 
           <n-flex vertical>
             <h6> - {{ plugin.i18n.t("select_explains") }}</h6>
-            <n-flex v-for="explain in saveData.boomExplains" class="explain-card" vertical>
+            <n-flex v-for="(explain,index) in saveData.boomExplains" class="explain-card" vertical
+                    v-if="response.isWord">
               <n-flex>
                 <n-checkbox v-model:checked="explain.checked">
                   {{ explain.type }}
                 </n-checkbox>
-                <a href="#">reset</a>
+                <n-button size="tiny" ghost secondary type="info" :disabled="!explain.checked"
+                          @click="resetExplains(index)">
+                  Reset
+                </n-button>
               </n-flex>
-              <n-dynamic-tags v-model:value="explain.explains"/>
+              <n-dynamic-tags v-model:value="explain.explains" :disabled="!explain.checked"/>
             </n-flex>
+            <n-flex v-for="(translation,index) in saveData.translations" class="explain-card" vertical v-else>
+              <n-flex>
+                <n-checkbox v-model:checked="translation.checked">
+                  {{ translation.translation }}
+                </n-checkbox>
+              </n-flex>
+            </n-flex>
+          </n-flex>
+
+          <n-flex>
+            <n-button type="primary" ghost block icon-placement="right">
+              <template #icon>
+                <SendHorizontal/>
+              </template>
+              {{ plugin.i18n.t("save_to_note") }}
+            </n-button>
           </n-flex>
         </n-flex>
 
@@ -121,7 +145,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive} from 'vue';
+import {defineComponent} from 'vue';
 import {TranslateResponse} from '../const/translate-response';
 import DictionaryPlugin from "../../main";
 import {PropType} from "@vue/runtime-core";
@@ -145,7 +169,7 @@ import {
 import PlayIcon from "../../assets/icon/PlayIcon.vue";
 import LinkIcon from "../../assets/icon/LinkIcon.vue";
 import NoteIcon from "../../assets/icon/NoteIcon.vue";
-import {Mic, RotateCcw} from "lucide-vue-next";
+import {Mic, SendHorizontal} from "lucide-vue-next";
 import {Notice} from "obsidian";
 
 export default defineComponent({
@@ -167,7 +191,7 @@ export default defineComponent({
     NFormItem,
     NRadioGroup,
     NRadio,
-    Mic, RotateCcw,
+    Mic, SendHorizontal,
     NDynamicTags,
     NCheckbox,
   },
@@ -189,28 +213,41 @@ export default defineComponent({
     return {
       saveData: {
         speech: this.response?.speeches[0].speech,
-        boomExplains:
-            this.response.boomExplains?.map(item => ({
-              ...item,
-              checked: true,
-            }))
+        boomExplains: this.response.boomExplains?.map(item => ({
+          ...item,
+          checked: true,
+        })),
+        translations: this.response.translation.map(item => ({
+          translation: item,
+          checked: true
+        })),
+        isWord: this.response.isWord
       },
       selfSpeech: [],
       stream: null,
       mediaRecorder: null,
-      isRecording: false
+      isRecording: false,
+      radioCache: new Map()
     }
   },
   methods: {
     speechPlay(url: string) {
-      let audio = new Audio(url);
-      audio.play();
+      try {
+        const cachedAudio = this.radioCache.get(url);
+        if (cachedAudio) {
+          cachedAudio.play();
+        } else {
+          let audio = new Audio(url);
+          this.radioCache.set(url, audio);
+          audio.play();
+        }
+      } catch (e) {
+        this.radioCache.delete(url);
+        new Notice(this.plugin.i18n.t("play_error"))
+      }
     },
     addToNode() {
-      console.log("addToNode")
-    },
-    recordVoice() {
-      console.log("recordVoice")
+
     },
     async toggleRecording() {
       if (this.isRecording) {
@@ -230,7 +267,7 @@ export default defineComponent({
           chunks.push(e.data);
         };
 
-        this.mediaRecorder.onstop = () => {
+        this.mediaRecorder.onstop = function stop() {
           const blob = new Blob(chunks, {type: 'audio/wav'});
           const url = URL.createObjectURL(blob);
           this.selfSpeech.push(url)
@@ -251,6 +288,10 @@ export default defineComponent({
         });
         this.isRecording = false;
       }
+    },
+    resetExplains(index) {
+      this.saveData.boomExplains[index] = JSON.parse(JSON.stringify(this.response.boomExplains[index]));
+      this.saveData.boomExplains[index].checked = true;
     }
   },
   beforeDestroy() {
@@ -265,7 +306,9 @@ export default defineComponent({
       deep: true
     }
   },
-
+  mounted() {
+    console.log(this.response)
+  },
   computed: {
     extensionField() {
       return this.response.extensions && this.response.extensions.map(ex => ex.name)
