@@ -7,79 +7,67 @@ import "main.css"
 import "styles.css"
 
 export default class DictionaryPlugin extends Plugin {
-	settings: DictionarySettings;
-	i18n!: I18n;
-	private engine: TranslationStrategy;
+    settings: DictionarySettings;
+    i18n!: I18n;
+    private engine: TranslationStrategy;
 
-	async onload() {
+    async onload() {
 
-		await this.loadSettings();
+        await this.loadSettings();
 
-		this.i18n = new I18n(this.settings.lang!, async (lang: LangTypeAndAuto) => {
-			this.settings.lang = lang;
-			await this.saveSettings();
-		});
+        this.i18n = new I18n(this.settings.lang!, async (lang: LangTypeAndAuto) => {
+            this.settings.lang = lang;
+            await this.saveSettings();
+        });
 
-		this.addSettingTab(new DictionarySettingTab(this.app, this));
+        this.addSettingTab(new DictionarySettingTab(this.app, this));
 
-		const t = (x: I18nKey, vars?: any) => {
-			return this.i18n.t(x, vars);
-		};
-
-		// new TranslationModal(this, undefined).open();
+        const t = (x: I18nKey, vars?: any) => {
+            return this.i18n.t(x, vars);
+        };
 
 
-		this.registerEvent(
-			this.app.workspace.on("editor-menu", (menu, editor, view) => {
-				menu.addItem((item) => {
-					item
-						.setTitle(t("tran2target"))
-						.onClick(async () => {
-							// const translateResponse = await this.getTranslator()?.translate({
-							// 	to: this.settings.targetLang,
-							// 	words: editor.getSelection()
-							// });
-							// new TranslationModal(this, {
-							// 	explains: [undefined],
-							// 	extensions: [{name: "", value: ""}],
-							// 	from: "undefined",
-							// 	isWord: false,
-							// 	link: [""],
-							// 	source: "",
-							// 	speeches: [{area: "", phonetic: "", speech: ""}],
-							// 	to: "",
-							// 	translation: ""
-							// }).open();
-							const translateResponse = await this.getTranslator()?.translate({
-								to: this.settings.targetLang,
-								words: editor.getSelection()
-							});
-							new TranslationModal(this, translateResponse).open();
-						});
-				});
-			})
-		);
-	}
+        this.registerEvent(
+            this.app.workspace.on("editor-menu", (menu, editor, view) => {
+                if (editor.getSelection().trim().length > 0) {
+                    console.log(editor.getSelection())
+                    menu.addItem((item) => {
+                        item
+                            .setTitle(t("tran2target"))
+                            .onClick(async () => {
+                                const translateResponse = await this.getTranslator()?.translate({
+                                    to: this.settings.targetLang,
+                                    words: editor.getSelection()
+                                });
+                                new TranslationModal(this, translateResponse).open();
+                                editor.replaceSelection(`[[#^xxxx|${editor.getSelection()}]]`)
+                            });
+                    });
+                }
 
-	onunload() {
-		new Notice("Bye ～ 🙋🏻 ")
-	}
+            })
+        );
+    }
 
-	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-	}
+    onunload() {
+        new Notice("Bye ～ 🙋🏻 ")
+    }
 
-	async saveSettings() {
-		await this.saveData(this.settings);
-	}
+    async loadSettings() {
+        this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    }
 
-	getTranslator(): TranslationStrategy | undefined {
-		try {
-			this.engine = this.engine || new TranslateEngines[this.settings.engine].strategy(this.settings.engineConfig, this);
-			return this.engine;
-		} catch (e) {
-			new Notice(this.i18n.t("init_engine_exception", {error: e.message}))
-		}
-	}
+    async saveSettings() {
+        await this.saveData(this.settings);
+    }
+
+    getTranslator(): TranslationStrategy | undefined {
+        try {
+            this.engine = this.engine || new TranslateEngines[this.settings.engine].strategy(this.settings.engineConfig, this);
+            return this.engine;
+        } catch (e) {
+            new Notice(this.i18n.t("init_engine_exception", {error: e.message}))
+        }
+    }
 }
 

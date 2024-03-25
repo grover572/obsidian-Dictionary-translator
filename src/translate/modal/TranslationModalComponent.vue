@@ -267,7 +267,7 @@ export default defineComponent({
           chunks.push(e.data);
         };
 
-        this.mediaRecorder.onstop = function stop() {
+        this.mediaRecorder.onstop = ()=> {
           const blob = new Blob(chunks, {type: 'audio/wav'});
           const url = URL.createObjectURL(blob);
           this.selfSpeech.push(url)
@@ -280,7 +280,6 @@ export default defineComponent({
       }
     },
     stopRecording() {
-      console.log("stop")
       if (this.mediaRecorder && this.isRecording) {
         this.mediaRecorder.stop();
         this.stream.getTracks().forEach((track) => {
@@ -301,13 +300,11 @@ export default defineComponent({
   watch: {
     saveData: {
       handler(n, o) {
-        console.log(n, o)
       },
       deep: true
     }
   },
   mounted() {
-    console.log(this.response)
   },
   computed: {
     extensionField() {
