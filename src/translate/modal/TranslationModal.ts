@@ -9,7 +9,6 @@ export class TranslationModal extends Modal {
 	component: VueApp;
 	data: TranslateResponse | undefined;
 	plugin: DictionaryPlugin;
-	// func: Record<string, Function>;
 	editor: Editor;
 
 	constructor(plugin: DictionaryPlugin, data: TranslateResponse | undefined, editor: Editor) {
@@ -27,6 +26,7 @@ export class TranslationModal extends Modal {
 		const app = createApp(TranslationModalComponent, {
 			response: this.data,
 			plugin: this.plugin,
+			editor:this.editor,
 			closeCallback: () => this.close()
 		});
 		this.component = app;

@@ -72,7 +72,7 @@ export class YoudaoTranslator implements TranslationStrategy {
             translation: youdaoApiResponse.translation
         };
 
-        let boomExplains = youdaoApiResponse?.basic?.explains?.map(explain => this.splitString(explain));
+        const boomExplains = youdaoApiResponse?.basic?.explains?.map(explain => this.splitString(explain));
 
         return youdaoApiResponse.isWord ? {
             ...result,
@@ -89,7 +89,7 @@ export class YoudaoTranslator implements TranslationStrategy {
             extensions: youdaoApiResponse.basic?.wfs?.map(item => ({name: item?.wf?.name, value: item?.wf?.value})),
             isWord: youdaoApiResponse.isWord,
             link: [youdaoApiResponse.webdict.url],
-			boomExplains: boomExplains
+            boomExplains: boomExplains
         } : {
             ...result,
             speeches: [{speech: youdaoApiResponse?.speakUrl}],
@@ -97,12 +97,15 @@ export class YoudaoTranslator implements TranslationStrategy {
         };
     }
 
-	splitString(input: string): {} {
-		const parts = input.split('.');
-		const type = parts[0];
-		const explains = parts[1].split('；');
-		return { type, explains };
-	}
+    splitString(input: string): {} {
+        const parts = input.split('.');
+        if (parts.length < 2) {
+            parts.unshift("");
+        }
+        const type = parts[0];
+        const explains = parts[1]?.split('；');
+        return {type, explains};
+    }
 
 }
 

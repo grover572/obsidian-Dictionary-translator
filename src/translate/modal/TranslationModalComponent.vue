@@ -130,7 +130,7 @@
           </n-flex>
 
           <n-flex>
-            <n-button type="primary" ghost block icon-placement="right">
+            <n-button type="primary" ghost block icon-placement="right" @click="addToNode">
               <template #icon>
                 <SendHorizontal/>
               </template>
@@ -170,7 +170,7 @@ import PlayIcon from "../../assets/icon/PlayIcon.vue";
 import LinkIcon from "../../assets/icon/LinkIcon.vue";
 import NoteIcon from "../../assets/icon/NoteIcon.vue";
 import {Mic, SendHorizontal} from "lucide-vue-next";
-import {Notice} from "obsidian";
+import {Notice, Editor} from "obsidian";
 
 export default defineComponent({
   name: 'TranslationModalComponent',
@@ -206,6 +206,10 @@ export default defineComponent({
     },
     closeCallback: {
       type: Function,
+      required: true
+    },
+    editor: {
+      type: Editor,
       required: true
     }
   },
@@ -247,7 +251,7 @@ export default defineComponent({
       }
     },
     addToNode() {
-
+      this.plugin.saveNote(this.editor,{})
     },
     async toggleRecording() {
       if (this.isRecording) {
@@ -267,7 +271,7 @@ export default defineComponent({
           chunks.push(e.data);
         };
 
-        this.mediaRecorder.onstop = ()=> {
+        this.mediaRecorder.onstop = () => {
           const blob = new Blob(chunks, {type: 'audio/wav'});
           const url = URL.createObjectURL(blob);
           this.selfSpeech.push(url)
