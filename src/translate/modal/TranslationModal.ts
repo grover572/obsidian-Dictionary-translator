@@ -1,4 +1,4 @@
-import {App, Modal} from "obsidian";
+import {App, Editor, Modal} from "obsidian";
 import {createApp, App as VueApp} from "vue";
 import TranslationModalComponent from "./TranslationModalComponent.vue";
 import {TranslateResponse} from "../const/translate-response";
@@ -9,11 +9,14 @@ export class TranslationModal extends Modal {
 	component: VueApp;
 	data: TranslateResponse | undefined;
 	plugin: DictionaryPlugin;
+	// func: Record<string, Function>;
+	editor: Editor;
 
-	constructor(plugin: DictionaryPlugin, data: TranslateResponse | undefined) {
+	constructor(plugin: DictionaryPlugin, data: TranslateResponse | undefined, editor: Editor) {
 		super(plugin.app);
 		this.data = data;
 		this.plugin = plugin;
+		this.editor = editor;
 	}
 
 
