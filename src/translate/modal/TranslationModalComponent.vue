@@ -275,6 +275,7 @@ export default defineComponent({
           const blob = new Blob(chunks, {type: 'audio/wav'});
           const url = URL.createObjectURL(blob);
           this.selfSpeech.push(url)
+			console.log(url)
         };
 
         this.mediaRecorder.start();

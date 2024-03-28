@@ -1,4 +1,4 @@
-# Obsidian Sample Plugin
+# Obsidian Dictionary Translator
 
 This is a sample plugin for Obsidian (https://obsidian.md).
 

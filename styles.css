@@ -96,3 +96,10 @@ If your plugin does not need CSS, delete this file.
 	background-color: transparent;
 	box-shadow: none;
 }
+
+.callout[data-callout="translator-card-callout"] {
+	--callout-icon: book-open-text;
+}
+.callout[data-callout="translator-card-callout"] .callout-icon{
+	vertical-align: bottom;
+}
