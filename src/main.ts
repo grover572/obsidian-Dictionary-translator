@@ -67,11 +67,26 @@ export default class DictionaryPlugin extends Plugin {
     }
 
     async saveNote(editor: Editor, saveData: TranslatorSaveData) {
-		await this.reloadAttachFolder();
-
-		const selection = editor.getSelection();
+        const selection = editor.getSelection();
         const hash = this.hash(selection);
+        await this.reloadAttachFolder();
 
+        let radioPath;
+        // save radio
+        if (saveData.radio) {
+            radioPath = this.settings.attach + "/" + saveData.title + "-" + hash + ".mp3";
+            this.app.vault.createBinary(radioPath, saveData.radio);
+        }
+
+        const appendPosition = editor.lastLine() + 1;
+
+        const title = `\n\n>[!translator-card-callout]+ ${saveData.title}\n`
+        const content = saveData.content.map(c => `>${c.trim()}`).join("\n");
+        const radio = `\n![[${radioPath}]]`
+        const anchor = `\n^${hash}`
+        editor.setLine(appendPosition, title + content + radio + anchor)
+
+        editor.replaceSelection(`[[#^${hash}|${selection}]]`);
 
     }
 
@@ -96,17 +111,17 @@ export default class DictionaryPlugin extends Plugin {
         }
     }
 
-	async reloadAttachFolder() {
-		const folderpath = normalizePath(this.settings.attach);
-		const vault = this.app.vault;
-		const folder = vault.getAbstractFileByPath(folderpath);
-		if (folder && folder instanceof TFolder) {
-			return;
-		}
-		if (folder && folder instanceof TFile) {
-			new Notice(this.i18n.t("file_exist",{folderpath}))
-		}
-		return await vault.createFolder(folderpath);
-	}
+    async reloadAttachFolder() {
+        const folderpath = normalizePath(this.settings.attach);
+        const vault = this.app.vault;
+        const folder = vault.getAbstractFileByPath(folderpath);
+        if (folder && folder instanceof TFolder) {
+            return;
+        }
+        if (folder && folder instanceof TFile) {
+            new Notice(this.i18n.t("file_exist", {folderpath}))
+        }
+        return await vault.createFolder(folderpath);
+    }
 }
 
