@@ -1,9 +1,8 @@
 export interface TranslatorSaveData {
-	calloutType: calloutType
+	calloutType?: calloutType
 	title: string
 	content: string
-	hash: string
-	record: string
+	record: ArrayBuffer
 }
 
-type calloutType = "info"
+type calloutType = "translator-card-callout"

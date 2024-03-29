@@ -36,5 +36,6 @@
 	"play_the_radio": "play the radio",
 	"select_explains": "Select explains",
 	"save_to_note": "Save to note",
-	"play_error": "Play failure,please replay"
+	"play_error": "Play failure,please replay",
+	"file_exist": "The folder cannot be created because it already exists as a file: {{folderpath}}."
 }

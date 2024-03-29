@@ -1,11 +1,10 @@
-import {Editor, Notice, Plugin} from 'obsidian';
+import {Editor, normalizePath, Notice, Plugin, TFile, TFolder} from 'obsidian';
 import {DEFAULT_SETTINGS, DictionarySettings, DictionarySettingTab} from "./setting";
 import {I18n, I18nKey, LangTypeAndAuto} from "./util/i18n";
 import {TranslateEngines, TranslationStrategy} from "./translate/const/translate-engines";
 import {TranslationModal} from "./translate/modal/TranslationModal";
 import "main.css"
 import "styles.css"
-import CryptoJS from "crypto-js"
 import {TranslatorSaveData} from "./translate/const/translate-save-data";
 
 
@@ -28,7 +27,6 @@ export default class DictionaryPlugin extends Plugin {
         const t = (x: I18nKey, vars?: any) => {
             return this.i18n.t(x, vars);
         };
-
 
         this.registerEvent(
             this.app.workspace.on("editor-menu", (menu, editor, view) => {
@@ -68,10 +66,13 @@ export default class DictionaryPlugin extends Plugin {
         return hashStr.length > 10 ? hashStr.slice(-10) : hashStr.padStart(10, '0');
     }
 
-    saveNote(editor: Editor, saveData: TranslatorSaveData) {
-        const selection = editor.getSelection();
+    async saveNote(editor: Editor, saveData: TranslatorSaveData) {
+		await this.reloadAttachFolder();
+
+		const selection = editor.getSelection();
         const hash = this.hash(selection);
-        console.log(hash)
+
+
     }
 
     onunload() {
@@ -94,5 +95,18 @@ export default class DictionaryPlugin extends Plugin {
             new Notice(this.i18n.t("init_engine_exception", {error: e.message}))
         }
     }
+
+	async reloadAttachFolder() {
+		const folderpath = normalizePath(this.settings.attach);
+		const vault = this.app.vault;
+		const folder = vault.getAbstractFileByPath(folderpath);
+		if (folder && folder instanceof TFolder) {
+			return;
+		}
+		if (folder && folder instanceof TFile) {
+			new Notice(this.i18n.t("file_exist",{folderpath}))
+		}
+		return await vault.createFolder(folderpath);
+	}
 }
 
