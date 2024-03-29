@@ -219,7 +219,7 @@ export default defineComponent({
 	data() {
 		return {
 			saveData: {
-				speech: this.response?.speeches[0].speech,
+				speech: this.response?.speeches[0]?.speech,
 				boomExplains: this.response.boomExplains?.map(item => ({
 					...item,
 					checked: true,
@@ -255,14 +255,22 @@ export default defineComponent({
 			}
 		},
 		async addToNode() {
-			const speechFecthResponse = await fetch(this.saveData.speech);
-			const speechBuffer = await speechFecthResponse.arrayBuffer();
 
+			let title = this.response.source;
 
+			let record = null;
+			if (this.saveData.speech) {
+				let audioBuffer = this.radioCache.get(this.saveData.speech);
+				if (!audioBuffer) {
+					let audioResponse = await fetch(this.saveData.speech);
+					let audioBuffer = await audioResponse.arrayBuffer();
+				}
+			}
 
+			let content:string[] = [];
 
-
-			await this.plugin.saveNote(this.editor, {})
+			const saveData : TranslatorSaveData = {content, record, title}
+			await this.plugin.saveNote(this.editor, saveData)
 		},
 		async toggleRecording() {
 			if (this.isRecording) {
@@ -310,6 +318,7 @@ export default defineComponent({
 		},
 		playBuffer(speechBuffer:ArrayBuffer) {
 			const audioContext = new AudioContext();
+			console.log(speechBuffer.byteLength)
 			audioContext.decodeAudioData(speechBuffer).then(copyBuffer => {
 				const source = audioContext.createBufferSource();
 				source.buffer = copyBuffer;
