@@ -281,6 +281,7 @@ export default defineComponent({
 
       const saveData: TranslatorSaveData = {content, radio, title, radioLabel: this.saveData.speechLabel}
       await this.plugin.saveNote(this.editor, saveData)
+      this.closeCallback()
     },
     async toggleRecording() {
       if (this.isRecording) {
