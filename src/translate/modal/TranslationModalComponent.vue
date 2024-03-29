@@ -246,7 +246,8 @@ export default defineComponent({
           this.playBuffer(cachedBuffer.slice(0))
         } else {
           let audioResponse = await fetch(url);
-          if (!audioResponse.ok) {
+          console.log(audioResponse)
+          if (!audioResponse.ok || audioResponse.status != 200) {
             throw new Error()
           }
           let audioBuffer = await audioResponse.arrayBuffer();
@@ -264,19 +265,26 @@ export default defineComponent({
 
       let radio = null;
       const speechURL = this.saveData.speech;
-      if (speechURL) {
-        radio = this.radioCache.get(speechURL);
-        if (!radio) {
-          let audioResponse = await fetch(speechURL);
-          radio = await audioResponse.arrayBuffer();
-          this.radioCache.set(speechURL, radio.slice(0))
+      try {
+        if (speechURL) {
+          radio = this.radioCache.get(speechURL);
+          if (!radio) {
+            let audioResponse = await fetch(speechURL);
+            radio = await audioResponse.arrayBuffer();
+            this.radioCache.set(speechURL, radio.slice(0))
+          }
         }
+      } catch (e) {
+        console.debug(e)
+        new Notice(this.plugin.i18n.t("save_radio_fail"))
       }
 
       let content: string[] = [];
       if (this.saveData.isWord) {
         content = this.saveData.boomExplains.filter(explains => explains.checked);
         content = content.map(explains => explains.type + (explains.type ? "." : "") + explains.explains.join(";"))
+      } else {
+        content = this.saveData.translations.filter(t => t.checked).map(t => t.translation);
       }
 
       const saveData: TranslatorSaveData = {content, radio, title, radioLabel: this.saveData.speechLabel}

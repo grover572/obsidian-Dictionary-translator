@@ -37,5 +37,6 @@
 	"select_explains": "Select explains",
 	"save_to_note": "Save to note",
 	"play_error": "Play failure,please replay",
-	"file_exist": "The folder cannot be created because it already exists as a file: {{folderpath}}."
+	"file_exist": "The folder cannot be created because it already exists as a file: {{folderpath}}.",
+	"save_radio_fail": "Save radio Failed,Please check your network"
 }

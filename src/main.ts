@@ -74,7 +74,7 @@ export default class DictionaryPlugin extends Plugin {
         let radioPath;
         // save radio
         if (saveData.radio) {
-            radioPath = this.settings.attach + "/" + saveData.title + "-" + hash + ".mp3";
+            radioPath = this.settings.attach + "/" + saveData.title.substring(0,10) + "-" + hash + ".mp3";
             this.app.vault.createBinary(radioPath, saveData.radio);
         }
 
@@ -84,7 +84,7 @@ export default class DictionaryPlugin extends Plugin {
         const content = saveData.content.map(c => `>${c.trim()}`).join("\n");
         const radio = `\n![[${radioPath}]]`
         const anchor = `\n^${hash}`
-        editor.setLine(appendPosition, title + content + radio + anchor)
+        editor.setLine(appendPosition, title + content + (saveData.radio ? radio : "") + anchor)
 
         editor.replaceSelection(`[[#^${hash}|${selection}]]`);
 

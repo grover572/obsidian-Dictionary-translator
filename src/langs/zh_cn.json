@@ -38,5 +38,6 @@
 	"select_explains": "选择保存的释义",
 	"save_to_note": "保存到笔记",
 	"play_error": "播放失败,请重试",
-	"file_exist": "无法创建文件夹，因为路径上存在一个文件: {{folderpath}}"
+	"file_exist": "无法创建文件夹，因为路径上存在一个文件: {{folderpath}}",
+	"save_radio_fail": "保存录音文件失败，请检查网络"
 }
