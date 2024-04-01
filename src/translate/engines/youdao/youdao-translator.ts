@@ -62,7 +62,7 @@ export class YoudaoTranslator implements TranslationStrategy {
             new Notice(message);
             throw new Error(message)
         }
-        console.log(youdaoApiResponse)
+        console.debug(youdaoApiResponse)
         const lang = youdaoApiResponse.l.split("2");
         const result: TranslateResponse | any = {
             isWord: youdaoApiResponse.isWord,

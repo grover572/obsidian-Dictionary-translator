@@ -245,7 +245,7 @@ export default defineComponent({
           this.playBuffer(cachedBuffer.slice(0))
         } else {
           let audioResponse = await fetch(url);
-          console.log(audioResponse)
+          console.debug(audioResponse)
           if (!audioResponse.ok || audioResponse.status != 200) {
             throw new Error()
           }
@@ -312,7 +312,7 @@ export default defineComponent({
           const blob = new Blob(chunks, {type: 'audio/wav'});
           const url = URL.createObjectURL(blob);
           this.selfSpeech.push(url)
-          console.log(url)
+          console.debug(url)
         };
 
         this.mediaRecorder.start();
@@ -336,7 +336,7 @@ export default defineComponent({
     },
     playBuffer(speechBuffer: ArrayBuffer) {
       const audioContext = new AudioContext();
-      console.log(speechBuffer.byteLength)
+      console.debug(speechBuffer.byteLength)
       audioContext.decodeAudioData(speechBuffer).then(copyBuffer => {
         const source = audioContext.createBufferSource();
         source.buffer = copyBuffer;

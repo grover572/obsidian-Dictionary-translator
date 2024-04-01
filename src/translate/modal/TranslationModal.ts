@@ -34,7 +34,7 @@ export class TranslationModal extends Modal {
 	}
 
 	onClose() {
-		console.log("close")
+		console.debug("close")
 		const {modalEl} = this;
 		this.component.unmount();
 		modalEl.empty();

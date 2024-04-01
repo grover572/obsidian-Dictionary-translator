@@ -160,7 +160,7 @@ export class DictionarySettingTab extends PluginSettingTab {
             .addDropdown(cb => cb.addOptions(this.getEnginesOptions())
                 .setValue(`${this.plugin.settings.engine}`)
                 .onChange(async (value) => {
-                    console.log("engine:" + value)
+                    console.debug("engine:" + value)
                     this.plugin.settings.engine = value as SupportEngine;
                     youdaoEngineDiv.toggleClass("settings-hide", value !== "youdao")
                     // googleEngineDiv.toggleClass("settings-hide", value !== "google")
