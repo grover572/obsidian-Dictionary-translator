@@ -1,4 +1,5 @@
-
+# Obsidian-Dictionary-translator
+[中文文档](doc%2Freadme%28cn%29.md)
 ## What Can I Do for You?
 
 This is a simple plugin designed to assist you in expanding your knowledge base while also enabling quick translation of unfamiliar words or sentences, and generating flashcards that can be inserted into your notebook.
