@@ -3,7 +3,7 @@
 	"name": "Dictionary translator",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "This plugin allows you to quickly underline word translations and insert word cards in your notes.",
+	"description": "This plugin helps you to quickly underline word translations and insert word cards in your notes.",
 	"author": "Grover",
 	"authorUrl": "https://github.com/grover572",
 	"isDesktopOnly": false
