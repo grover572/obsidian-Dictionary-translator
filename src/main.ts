@@ -31,11 +31,12 @@ export default class DictionaryPlugin extends Plugin {
         this.registerEvent(
             this.app.workspace.on("editor-menu", (menu, editor, view) => {
                 const selection = editor.getSelection();
-                if (selection.trim().length > 0) {
-                    console.log(selection)
+				const onlyPunctuation = /^[\u2000-\u206F\u2E00-\u2E7F\\'!"#\$%&\(\)\*\+,\-\./:;<=>\?@\[\]\^_`\{\|\}~]+$/.test(selection.replace(" ",""));
+				if (selection.trim().length > 0 && !onlyPunctuation) {
                     menu.addItem((item) => {
                         item
                             .setTitle(t("tran2target"))
+							.setIcon("languages")
                             .onClick(async () => {
                                 const translateResponse = await this.getTranslator()?.translate({
                                     to: this.settings.targetLang,

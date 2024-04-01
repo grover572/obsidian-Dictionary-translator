@@ -1,7 +1,7 @@
 {
 	"name": "obsidian-Dictionary-translator",
 	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"description": "This plugin allows you to quickly underline word translations and insert word cards in your notes",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",

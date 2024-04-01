@@ -3,9 +3,8 @@
 	"name": "Dictionary translator",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "This plug-in is developed for the Chinese, in the summary notes encountered do not know the words, you can add to this word book, easy to review and master in the future.",
+	"description": "This plugin allows you to quickly underline word translations and insert word cards in your notes.",
 	"author": "Grover",
 	"authorUrl": "https://github.com/grover572",
-	"fundingUrl": "https://github.com/grover572",
 	"isDesktopOnly": false
 }

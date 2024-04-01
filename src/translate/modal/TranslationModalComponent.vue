@@ -173,7 +173,6 @@ import NoteIcon from "../../assets/icon/NoteIcon.vue";
 import {Mic, SendHorizontal} from "lucide-vue-next";
 import {Notice, Editor} from "obsidian";
 import {TranslatorSaveData} from "../const/translate-save-data";
-import * as fs from "fs";
 
 export default defineComponent({
   name: 'TranslationModalComponent',
