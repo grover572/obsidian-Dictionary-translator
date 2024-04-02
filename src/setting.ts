@@ -72,26 +72,28 @@ export class DictionarySettingTab extends PluginSettingTab {
             .setName(i18n("youdao_app_key"))
             .setDesc("AppKey")
             .addText((text) => {
-                wrapTextWithPasswordHide(text);
+				text.inputEl.setAttribute("type","password");
                 text
                     .setValue(`${(this.plugin.settings.engineConfig as YoudaoConfigs).appKey ?? ""}`)
                     .onChange(async (value) => {
                         this.setConfigValue(this.plugin.settings.engineConfig, 'appKey', value)
                         await this.plugin.saveSettings();
                     });
+				this.addPasswordFocusEvent(text);
             });
 
         new Setting(youdaoEngineDiv)
             .setName(i18n("youdao_app_secret"))
             .setDesc("AppSecret")
             .addText((text) => {
-                wrapTextWithPasswordHide(text);
-                text
+				text.inputEl.setAttribute("type","password");
+				text
                     .setValue(`${(this.plugin.settings.engineConfig as YoudaoConfigs).appSecret ?? ""}`)
                     .onChange(async (value) => {
                         this.setConfigValue(this.plugin.settings.engineConfig, 'appSecret', value)
                         await this.plugin.saveSettings();
                     });
+				this.addPasswordFocusEvent(text);
             });
 
         new Setting(containerEl)
@@ -219,6 +221,16 @@ export class DictionarySettingTab extends PluginSettingTab {
 
     }
 
+	private addPasswordFocusEvent(text: TextComponent) {
+		text.inputEl.addEventListener("focus", function() {
+			this.setAttribute("type", "text");
+		});
+
+		text.inputEl.addEventListener("blur", function() {
+			this.setAttribute("type", "password");
+		});
+	}
+
     private setConfigValue<T, K extends keyof T, V extends T[K]>(obj: T | undefined, key: K, value: V): T {
         const updatedObj = obj ?? {} as T;
         updatedObj[key] = value;
@@ -246,7 +258,8 @@ const getEyesElements = () => {
 
 const wrapTextWithPasswordHide = (text: TextComponent) => {
     const {eye, eyeOff} = getEyesElements();
-    const hider = text.inputEl.insertAdjacentElement("afterend", createSpan())!;
+	let element = createSpan();
+	const hider = text.inputEl.insertAdjacentElement("afterend", element)!;
     // the init type of hider is "hidden" === eyeOff === password
     hider.innerHTML = eyeOff;
     hider.addEventListener("click", (e) => {
