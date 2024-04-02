@@ -247,29 +247,3 @@ export class DictionarySettingTab extends PluginSettingTab {
 
 }
 
-const getEyesElements = () => {
-    const eyeEl = createElement(Eye);
-    const eyeOffEl = createElement(EyeOff);
-    return {
-        eye: eyeEl.outerHTML,
-        eyeOff: eyeOffEl.outerHTML,
-    };
-};
-
-const wrapTextWithPasswordHide = (text: TextComponent) => {
-    const {eye, eyeOff} = getEyesElements();
-	let element = createSpan();
-	const hider = text.inputEl.insertAdjacentElement("afterend", element)!;
-    // the init type of hider is "hidden" === eyeOff === password
-    hider.innerHTML = eyeOff;
-    hider.addEventListener("click", (e) => {
-        const isText = text.inputEl.getAttribute("type") === "text";
-        hider.innerHTML = isText ? eyeOff : eye;
-        text.inputEl.setAttribute("type", isText ? "password" : "text");
-        text.inputEl.focus();
-    });
-
-    // the init type of text el is password
-    text.inputEl.setAttribute("type", "password");
-    return text;
-};
