@@ -3,7 +3,6 @@ import {DEFAULT_SETTINGS, DictionarySettings, DictionarySettingTab} from "./sett
 import {I18n, I18nKey, LangTypeAndAuto} from "./util/i18n";
 import {TranslateEngines, TranslationStrategy} from "./translate/const/translate-engines";
 import {TranslationModal} from "./translate/modal/TranslationModal";
-import "main.css"
 import "styles.css"
 import {TranslatorSaveData} from "./translate/const/translate-save-data";
 import * as CryptoJS from 'crypto-js';

@@ -39,5 +39,7 @@
 	"save_to_note": "儲存至筆記",
 	"play_error": "播放發生錯誤，請重試",
 	"file_exist": "無法建立資料夾，因為該路徑已有檔案存在: {{folderpath}}",
-	"save_radio_fail": "儲存語音檔案失敗，請檢查網路連線"
+	"save_radio_fail": "儲存語音檔案失敗，請檢查網路連線",
+	"stop_record": "停止錄音",
+	"start_record": "開始錄音"
 }

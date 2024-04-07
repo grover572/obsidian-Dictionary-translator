@@ -8,9 +8,9 @@ This is a simple plugin designed to assist you in expanding your knowledge base 
 
 1. Configure the Translation Engine
 	![setting.png](doc%2Fsetting.png)
-3. Right-click on words for translation
+2. Right-click on words for translation
    ![translator.gif](doc%2Ftranslator.gif)
-
+3. 
 ## Supported Translation Engines
 
 - [x] Youdao Translation

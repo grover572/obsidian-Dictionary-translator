@@ -78,7 +78,7 @@
                     <Mic/>
                   </n-icon>
                 </template>
-                {{ isRecording ? 'Stop Record' : 'Start Record' }}
+                {{ isRecording ? this.plugin.i18n.t("stop_record") : this.plugin.i18n.t("start_record") }}
               </n-button>
             </n-flex>
             <n-radio-group v-model:value="saveData.speech" name="speechRadio">
