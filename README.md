@@ -7,7 +7,7 @@ This is a simple plugin designed to help you expand your knowledge base while al
 
 1. Configure the Translation Engine
 	![setting.png](doc%2Fsetting.png)
-2. Right-click on words for translation ()
+2. Right-click on words for translation (You can record your own pronunciation)
    ![translator.gif](doc%2Ftranslator.gif)
 
 ## Supported Translation Engines

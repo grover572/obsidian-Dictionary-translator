@@ -7,7 +7,7 @@
 
 1. 配置翻译引擎
   ![setting.png](setting.png)
-2. 右键划词翻译
+2. 右键划词翻译 (你可以录制自己的发音)
   ![translator.gif](translator.gif)
 
 
