@@ -2,15 +2,14 @@
 [中文文档](doc%2Freadme%28cn%29.md)
 ## What Can I Do for You?
 
-This is a simple plugin designed to assist you in expanding your knowledge base while also enabling quick translation of unfamiliar words or sentences, and generating flashcards that can be inserted into your notebook.
-
+This is a simple plugin designed to help you expand your knowledge base while also quickly translating unfamiliar words or sentences and generating flashcards that can be plugged into your notebook. In addition, you can also save the translation engine's pronunciation files to your vault, and you can also record your own pronunciation if you want.
 ## How to Use
 
 1. Configure the Translation Engine
 	![setting.png](doc%2Fsetting.png)
-2. Right-click on words for translation
+2. Right-click on words for translation ()
    ![translator.gif](doc%2Ftranslator.gif)
-3. 
+
 ## Supported Translation Engines
 
 - [x] Youdao Translation

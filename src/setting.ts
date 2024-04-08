@@ -45,7 +45,7 @@ export class DictionarySettingTab extends PluginSettingTab {
         };
 
         // title
-        containerEl.createEl("h1", {text: "Dictionary Settings"});
+        // containerEl.createEl("h1", {text: "Dictionary Settings"});
 
         // Div : enginesChooserDiv
         const enginesChooserDiv = containerEl.createDiv();

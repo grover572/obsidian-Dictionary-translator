@@ -3,6 +3,11 @@ import process from "process";
 import builtins from "builtin-modules";
 import copy from "esbuild-plugin-copy";
 import esbuildPluginVue3 from "esbuild-plugin-vue3";
+import * as fs from "fs";
+import AdmZip from "adm-zip";
+import path from "path";
+import {readFileSync} from "fs";
+
 
 const banner =
 	`/*
@@ -53,7 +58,55 @@ const context = await esbuild.context({
 
 if (prod) {
 	await context.rebuild();
+	await packageDist(["main.js", "styles.css", "manifest.json"], "dist");
 	process.exit(0);
 } else {
 	await context.watch();
+}
+
+async function packageDist(files, dist) {
+	fs.rmdirSync(dist,{recursive:true})
+	let manifest = JSON.parse(readFileSync("manifest.json", "utf8"));
+	const {id} = manifest;
+	const zipFileName = dist + "/" + id + ".zip";
+	// 创建目标目录
+	fs.mkdirSync(path.dirname(zipFileName), {recursive: true});
+	const zip = new AdmZip();
+	files.forEach((file) => {
+		const filePath = `${file}`;
+		const stat = fs.statSync(filePath);
+		if (stat.isFile()) {
+			zip.addLocalFile(filePath);
+		}
+	});
+	zip.writeZip(zipFileName);
+	console.log(`Files bundled and saved to ${zipFileName}`);
+
+	files.forEach((file)=>{
+		fs.copyFileSync(file,`${dist}/${file}`)
+	})
+	console.log(`Files copy to ${dist}`);
+	fs.rmSync("main.css")
+}
+
+
+function copyFileToDirectory(sourceFilePath, targetDirectoryPath) {
+	const fileName = path.basename(sourceFilePath);
+	const targetFilePath = path.join(targetDirectoryPath, fileName);
+
+	const readStream = fs.createReadStream(sourceFilePath);
+	const writeStream = fs.createWriteStream(targetFilePath);
+
+	// 执行拷贝
+	readStream.pipe(writeStream);
+
+	// 监听拷贝完成事件
+	writeStream.on('finish', () => {
+		console.log(`File "${fileName}" copied to "${targetDirectoryPath}"`);
+	});
+
+	// 监听可能的错误事件
+	writeStream.on('error', (err) => {
+		console.error(`Error copying file: ${err}`);
+	});
 }
