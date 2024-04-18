@@ -34,6 +34,7 @@
 		"crypto-js": "^4.2.0",
 		"esbuild-plugin-copy": "^2.1.1",
 		"esbuild-plugin-vue3": "^0.4.2",
+		"js-audio-recorder": "^1.0.7",
 		"jsonp": "^0.2.1",
 		"lucide": "^0.298.0",
 		"lucide-vue-next": "^0.359.0",
