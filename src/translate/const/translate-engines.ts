@@ -3,6 +3,7 @@ import {TranslateResponse} from "./translate-response";
 import {TranslateRequest} from "./translate-request";
 import DictionaryPlugin from "../../main";
 import {support_lang} from "./support-lang";
+import {BaiduBceTranslator} from "../engines/baidubce/baidubce-translator";
 
 export abstract class TranslationStrategy {
     config: EngineConfig;
@@ -22,10 +23,13 @@ export interface TranslateEngine {
 export type from = keyof typeof support_lang | "auto"
 export type to = keyof typeof support_lang
 
-export type SupportEngine = "youdao"
+export type SupportEngine = "youdao" | "baidubce"
 
 export const TranslateEngines: Record<SupportEngine, TranslateEngine> = {
     youdao: {
         strategy: YoudaoTranslator,
-    }
+    },
+	baidubce:{
+		strategy: BaiduBceTranslator
+	}
 };

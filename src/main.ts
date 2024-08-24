@@ -118,6 +118,7 @@ export default class DictionaryPlugin extends Plugin {
 	}
 
 	async saveSettings() {
+		console.log(JSON.stringify(this.settings))
 		await this.saveData(this.encrypt(JSON.stringify(this.settings)));
 	}
 

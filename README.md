@@ -1,27 +1,33 @@
 # Obsidian-Dictionary-translator
-[中文文档](doc%2Freadme%28cn%29.md)
-## What Can I Do for You?
 
-This is a simple plugin designed to help you expand your knowledge base while also quickly translating unfamiliar words or sentences and generating flashcards that can be plugged into your notebook. In addition, you can also save the translation engine's pronunciation files to your vault, and you can also record your own pronunciation if you want.
-## How to Use
+[English Doc](doc/README(EN).md)
 
-1. Configure the Translation Engine
-	![setting.png](doc%2Fsetting.png)
-2. Right-click on words for translation (You can record your own pronunciation)
-   ![translator.gif](doc%2Ftranslator.gif)
+## 我能帮你做什么？
 
-## Supported Translation Engines
+这是一个简单的插件，帮助你在完成你的知识库的同时可以快速的翻译陌生的单词或句子，并将其生成单词卡插入笔记本中。此外，你还可以将翻译引擎的发音文件保存到你的vault，如果你想，你也可以录制自己的发音。
 
-- [x] Youdao Translation
-- [ ] Google Translate
-- [ ] Microsoft Translator
+## 如何使用
 
-#### Custom Translation Engine
+1. 配置翻译引擎
+  ![setting.png](doc/setting.png)
+2. 右键划词翻译 (你可以录制自己的发音)
+  ![translator.gif](doc/translator.gif)
 
-1. Create a Custom Strategy Class: Implement the abstract class `TranslationStrategy`.
-2. Add your custom strategy class to `TranslateEngines`:
-	1. Make a request to your custom translation engine.
-	2. Parse the response and encapsulate it as a `TranslateResponse` type response.
-3. Add a unique configuration item for your translation engine in `setting.ts`.
 
-This guide provides a clear and concise explanation of how to utilize the plugin for translating and learning purposes. By following these steps, you can easily integrate a translation engine into your workflow, enhancing your ability to understand and retain new information.
+## 翻译引擎支持
+
+- [x] 有道翻译
+  > **2024-04-23** <br/>
+  > 由于[有道文本翻译接口返回内容更新](https://ai.youdao.com/gw-notice.s?page=1n0),依赖的`词典`相关数据缺失,导致插件体验不完整,只能展示基础的`释义`、`连接`、`基础发音`等。
+- [ ] 谷歌翻译
+- [ ] 微软翻译
+
+#### 自定义翻译引擎
+
+1. 自定义策略类: 实现`TranslationStrategy`抽象类
+2. 在`TranslateEngines`中添加自定义的策略类
+	1. 请求自定义的翻译引擎
+	2. 解析响应结果，封装为`TranslateResponse`类型的响应
+3. 为你的翻译引擎在`setting.ts`中添加独特的配置项
+
+
