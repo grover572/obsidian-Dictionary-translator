@@ -51,94 +51,9 @@ export class DictionarySettingTab extends PluginSettingTab {
 		// Div : enginesChooserDiv
 		const enginesChooserDiv = containerEl.createDiv();
 
-		/**
-		 * ==========
-		 * ==youdao==
-		 * ==========
-		 */
-		const youdaoEngineDiv = containerEl.createDiv({cls: "setting-config-box"});
-		youdaoEngineDiv.toggleClass("settings-hide", this.plugin.settings.engine !== "youdao")
-		const youdaoHeader = youdaoEngineDiv.createDiv({cls: "setting-engine-header"});
-		youdaoHeader.createEl("span", {text: i18n("guide", {engine: i18n("youdao")}) + ":", cls: "guide"})
-		youdaoHeader.createEl("img", {attr: {src: logo_image.youdao}})
-		const youdaoGuideP = youdaoEngineDiv.createEl("p");
-		youdaoGuideP.createEl("a", {
-			href: "https://ai.youdao.com/console/",
-			text: i18n("youdao_console"),
-		});
-		youdaoGuideP.createEl("span", {text: i18n("youdao_guide")})
+		const youdaoEngineDiv = this.renderYoudaoEngineSettings(containerEl, i18n);
 
-
-		new Setting(youdaoEngineDiv)
-			.setName(i18n("youdao_app_key"))
-			.setDesc("AppKey")
-			.addText((text) => {
-				text.inputEl.setAttribute("type", "password");
-				text
-					.setValue(`${(this.plugin.settings.engineConfig as YoudaoConfigs).appKey ?? ""}`)
-					.onChange(async (value) => {
-						this.setConfigValue(this.plugin.settings.engineConfig, 'appKey', value)
-						await this.plugin.saveSettings();
-					});
-				this.addPasswordFocusEvent(text);
-			});
-
-		new Setting(youdaoEngineDiv)
-			.setName(i18n("youdao_app_secret"))
-			.setDesc("AppSecret")
-			.addText((text) => {
-				text.inputEl.setAttribute("type", "password");
-				text
-					.setValue(`${(this.plugin.settings.engineConfig as YoudaoConfigs).appSecret ?? ""}`)
-					.onChange(async (value) => {
-						this.setConfigValue(this.plugin.settings.engineConfig, 'appSecret', value)
-						await this.plugin.saveSettings();
-					});
-				this.addPasswordFocusEvent(text);
-			});
-
-
-		const baidubceEngineDiv = containerEl.createDiv({cls: "setting-config-box"});
-		baidubceEngineDiv.toggleClass("settings-hide", this.plugin.settings.engine !== "baidubce")
-		const baidubceHeader = baidubceEngineDiv.createDiv({cls: "setting-engine-header"});
-		baidubceHeader.createEl("span", {text: i18n("guide", {engine: i18n("baidubce")}) + ":", cls: "guide"})
-		baidubceHeader.createEl("img", {attr: {src: logo_image.baidubce}})
-		const baidubceGuideP = baidubceEngineDiv.createEl("p");
-		baidubceGuideP.createEl("a", {
-			href: "https://console.bce.baidu.com/",
-			text: i18n("baidubce_console"),
-		});
-		baidubceGuideP.createEl("span", {text: i18n("baidubce_guide")})
-
-
-		new Setting(baidubceGuideP)
-			.setName(i18n("api_key"))
-			.setDesc("API Key")
-			.addText((text) => {
-				text.inputEl.setAttribute("type","password");
-				text
-					.setValue(`${(this.plugin.settings.engineConfig as BaiduBceConfigs).apiKey ?? ""}`)
-					.onChange(async (value) => {
-						this.setConfigValue(this.plugin.settings.engineConfig, 'apiKey', value)
-						await this.plugin.saveSettings();
-					});
-				this.addPasswordFocusEvent(text);
-			});
-
-		new Setting(baidubceGuideP)
-			.setName(i18n("secret_key"))
-			.setDesc("Secret Key")
-			.addText((text) => {
-				text.inputEl.setAttribute("type","password");
-				text
-					.setValue(`${(this.plugin.settings.engineConfig as BaiduBceConfigs).secretKey ?? ""}`)
-					.onChange(async (value) => {
-						this.setConfigValue(this.plugin.settings.engineConfig, 'secretKey', value)
-						await this.plugin.saveSettings();
-					});
-				this.addPasswordFocusEvent(text);
-			});
-
+		const baidubceEngineDiv = this.renderBaiduBceEngineSettings(containerEl, i18n);
 
 		// common connect test
 		new Setting(containerEl)
@@ -237,6 +152,99 @@ export class DictionarySettingTab extends PluginSettingTab {
 
 	}
 
+	private renderYoudaoEngineSettings(containerEl: HTMLElement, i18n: Function) {
+		/**
+		 * ==========
+		 * ==youdao==
+		 * ==========
+		 */
+		const youdaoEngineDiv = containerEl.createDiv({cls: "setting-config-box"});
+		youdaoEngineDiv.toggleClass("settings-hide", this.plugin.settings.engine !== "youdao")
+		const youdaoHeader = youdaoEngineDiv.createDiv({cls: "setting-engine-header"});
+		youdaoHeader.createEl("span", {text: i18n("guide", {engine: i18n("youdao")}) + ":", cls: "guide"})
+		youdaoHeader.createEl("img", {attr: {src: logo_image.youdao}})
+		const youdaoGuideP = youdaoEngineDiv.createEl("p");
+		youdaoGuideP.createEl("a", {
+			href: "https://ai.youdao.com/console/",
+			text: i18n("youdao_console"),
+		});
+		youdaoGuideP.createEl("span", {text: i18n("youdao_guide")})
+
+
+		new Setting(youdaoEngineDiv)
+			.setName(i18n("youdao_app_key"))
+			.setDesc("AppKey")
+			.addText((text) => {
+				text.inputEl.setAttribute("type", "password");
+				text
+					.setValue(`${(this.plugin.settings.engineConfig as YoudaoConfigs).appKey ?? ""}`)
+					.onChange(async (value) => {
+						this.setConfigValue(this.plugin.settings.engineConfig, 'appKey', value)
+						await this.plugin.saveSettings();
+					});
+				this.addPasswordFocusEvent(text);
+			});
+
+		new Setting(youdaoEngineDiv)
+			.setName(i18n("youdao_app_secret"))
+			.setDesc("AppSecret")
+			.addText((text) => {
+				text.inputEl.setAttribute("type", "password");
+				text
+					.setValue(`${(this.plugin.settings.engineConfig as YoudaoConfigs).appSecret ?? ""}`)
+					.onChange(async (value) => {
+						this.setConfigValue(this.plugin.settings.engineConfig, 'appSecret', value)
+						await this.plugin.saveSettings();
+					});
+				this.addPasswordFocusEvent(text);
+			});
+		return youdaoEngineDiv;
+	}
+
+	private renderBaiduBceEngineSettings(containerEl: HTMLElement, i18n: Function) {
+		const baidubceEngineDiv = containerEl.createDiv({cls: "setting-config-box"});
+		baidubceEngineDiv.toggleClass("settings-hide", this.plugin.settings.engine !== "baidubce")
+		const baidubceHeader = baidubceEngineDiv.createDiv({cls: "setting-engine-header"});
+		baidubceHeader.createEl("span", {text: i18n("guide", {engine: i18n("baidubce")}) + ":", cls: "guide"})
+		baidubceHeader.createEl("img", {attr: {src: logo_image.baidubce}})
+		const baidubceGuideP = baidubceEngineDiv.createEl("p");
+		baidubceGuideP.createEl("a", {
+			href: "https://console.bce.baidu.com/",
+			text: i18n("baidubce_console"),
+		});
+		baidubceGuideP.createEl("span", {text: i18n("baidubce_guide")})
+
+
+		new Setting(baidubceGuideP)
+			.setName(i18n("api_key"))
+			.setDesc("API Key")
+			.addText((text) => {
+				text.inputEl.setAttribute("type", "password");
+				text
+					.setValue(`${(this.plugin.settings.engineConfig as BaiduBceConfigs).apiKey ?? ""}`)
+					.onChange(async (value) => {
+						this.setConfigValue(this.plugin.settings.engineConfig, 'apiKey', value)
+						await this.plugin.saveSettings();
+					});
+				this.addPasswordFocusEvent(text);
+			});
+
+		new Setting(baidubceGuideP)
+			.setName(i18n("secret_key"))
+			.setDesc("Secret Key")
+			.addText((text) => {
+				text.inputEl.setAttribute("type", "password");
+				text
+					.setValue(`${(this.plugin.settings.engineConfig as BaiduBceConfigs).secretKey ?? ""}`)
+					.onChange(async (value) => {
+						this.setConfigValue(this.plugin.settings.engineConfig, 'secretKey', value)
+						await this.plugin.saveSettings();
+					});
+				this.addPasswordFocusEvent(text);
+			});
+		return baidubceEngineDiv;
+	}
+
 	private addPasswordFocusEvent(text: TextComponent) {
 		text.inputEl.addEventListener("focus", function () {
 			this.setAttribute("type", "text");
@@ -260,6 +268,7 @@ export class DictionarySettingTab extends PluginSettingTab {
 		});
 		return options
 	}
+
 
 }
 
