@@ -1,6 +1,6 @@
 import {EngineConfig} from "../../const/translate-engines";
 
-export class BaiduBceConfigs implements EngineConfig {
+export class BaidubceConfigs implements EngineConfig {
 
 	apiKey: string;
 	secretKey: string;

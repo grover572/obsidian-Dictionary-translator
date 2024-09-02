@@ -124,7 +124,7 @@ export default class DictionaryPlugin extends Plugin {
 
 	getTranslator(): TranslationStrategy | undefined {
 		try {
-			this.engine = this.engine || new TranslateEngines[this.settings.engine].strategy(this.settings.engineConfig, this);
+			this.engine = new TranslateEngines[this.settings.engine].strategy(this.settings.engineConfig, this);
 			return this.engine;
 		} catch (e) {
 			new Notice(this.i18n.t("init_engine_exception", {error: e.message}))
