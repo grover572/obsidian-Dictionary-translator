@@ -6,7 +6,7 @@ import {createElement, Eye, EyeOff} from "lucide";
 import {YoudaoConfigs} from "./translate/engines/youdao/youdao-configs";
 import {logo_image} from "./assets/engine-logo/logos";
 import {getLanguageOptions, support_lang} from "./translate/const/support-lang";
-import {BaiduBceConfigs} from "./translate/engines/baidubce/baidu-bce-configs";
+import {BaidubceConfigs} from "./translate/engines/baidubce/baidubce-configs";
 
 export interface DictionarySettings {
 	show_radio: boolean;
@@ -221,7 +221,7 @@ export class DictionarySettingTab extends PluginSettingTab {
 			.addText((text) => {
 				text.inputEl.setAttribute("type", "password");
 				text
-					.setValue(`${(this.plugin.settings.engineConfig as BaiduBceConfigs).apiKey ?? ""}`)
+					.setValue(`${(this.plugin.settings.engineConfig as BaidubceConfigs).apiKey ?? ""}`)
 					.onChange(async (value) => {
 						this.setConfigValue(this.plugin.settings.engineConfig, 'apiKey', value)
 						await this.plugin.saveSettings();
@@ -235,8 +235,9 @@ export class DictionarySettingTab extends PluginSettingTab {
 			.addText((text) => {
 				text.inputEl.setAttribute("type", "password");
 				text
-					.setValue(`${(this.plugin.settings.engineConfig as BaiduBceConfigs).secretKey ?? ""}`)
+					.setValue(`${(this.plugin.settings.engineConfig as BaidubceConfigs).secretKey ?? ""}`)
 					.onChange(async (value) => {
+						console.log(value)
 						this.setConfigValue(this.plugin.settings.engineConfig, 'secretKey', value)
 						await this.plugin.saveSettings();
 					});

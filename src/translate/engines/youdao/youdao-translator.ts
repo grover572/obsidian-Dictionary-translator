@@ -21,7 +21,7 @@ export class YoudaoTranslator implements TranslationStrategy {
             this.config = config;
             this.plugin = plugin;
         } else {
-            throw new NullConfigError(...findEmptyKeys(config));
+			throw new Error("配置项缺失");
         }
     }
 
