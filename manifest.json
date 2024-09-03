@@ -1,10 +1,10 @@
 {
 	"id": "dictionary-translator",
 	"name": "Dictionary translator",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"minAppVersion": "1.1.1",
 	"description": "It can help you translate words or sentences, listen to recordings of new words or sentences, and even record your own pronunciation to save in the form of internal links to your notes.",
 	"author": "Grover",
 	"authorUrl": "https://github.com/grover572",
-	"isDesktopOnly": false
+	"isDesktopOnly": true
 }

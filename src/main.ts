@@ -6,6 +6,7 @@ import {TranslationModal} from "./translate/modal/TranslationModal";
 import "styles.css"
 import {TranslatorSaveData} from "./translate/const/translate-save-data";
 import * as CryptoJS from 'crypto-js';
+import {support_lang} from "./translate/const/support-lang";
 
 export default class DictionaryPlugin extends Plugin {
 	settings: DictionarySettings;
@@ -38,10 +39,10 @@ export default class DictionaryPlugin extends Plugin {
 							.setIcon("languages")
 							.onClick(async () => {
 								const translateResponse = await this.getTranslator()?.translate({
-									to: this.settings.targetLang,
+									to: support_lang[this.settings.targetLang].engine[this.settings.engine],
 									words: selection
 								});
-								new TranslationModal(this, translateResponse, editor).open();
+								// new TranslationModal(this, translateResponse, editor).open();
 							});
 					});
 				}
