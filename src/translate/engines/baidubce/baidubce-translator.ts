@@ -31,7 +31,7 @@ export class BaiduBceTranslator implements TranslationStrategy {
 				url: BAIDUBCE_TRANSLATE_API + "?access_token=" + this.accessToken,
 				method: "POST",
 				contentType: "application/json;charset=utf-8",
-				body:JSON.stringify({
+				body: JSON.stringify({
 					from: "auto",
 					// TODO 插件语种 => 引擎语种的映射
 					to: request.to === "cn" ? "zh" : request.to,
@@ -63,22 +63,37 @@ export class BaiduBceTranslator implements TranslationStrategy {
 
 
 	private parseResponse(requestUrlResponse: RequestUrlResponse): TranslateResponse {
-		let transResult = requestUrlResponse?.json?.result?.trans_result?.[0];
+		const transResult = requestUrlResponse?.json?.result?.trans_result?.[0];
 		if (!transResult) {
 			throw new Error("翻译引擎结果为空");
 		}
 		console.log(JSON.stringify(transResult))
-		return new class implements TranslateResponse {
-			boomExplains: [{ type: string; explains: [string] }];
-			explains: [any];
-			extensions: [{ name: string; value: string }];
-			from: from;
-			isWord: boolean;
-			link: [string];
-			source: string;
-			speeches: [{ phonetic: string; speech: string; area: string }];
-			to: "to";
-			translation: [string];
+
+		const dict = transResult.dict && JSON.parse(transResult.dict);
+		const src_tts = transResult.src_tts;
+		const isWord = !(!dict);
+
+		const simpleMeans = dict?.word_result?.simple_means;
+
+		console.log(simpleMeans)
+
+		console.log(isWord)
+
+		console.log(dict)
+
+		return {
+			// boomExplains: [
+			//
+			// ],
+			// explains: [],
+			// extensions: [],
+			// from:  transResult.src,
+			// isWord: isWord,
+			// link: [],
+			// source: string,
+			// speeches: [{ phonetic: string; speech: string; area: string }],
+			// to: transResult.dst,
+			// translation: [string]
 		}
 	}
 }
