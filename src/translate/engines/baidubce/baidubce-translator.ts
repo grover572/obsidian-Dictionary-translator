@@ -3,7 +3,10 @@ import DictionaryPlugin from "../../../main";
 import {TranslateRequest} from "../../const/translate-request";
 import {TranslateResponse} from "../../const/translate-response";
 import {BaidubceConfigs} from "./baidubce-configs";
-import {requestUrl} from "obsidian";
+import {requestUrl, RequestUrlResponse} from "obsidian";
+import * as url from "url";
+
+const BAIDUBCE_TRANSLATE_API = "https://aip.baidubce.com/rpc/2.0/mt/texttrans-with-dict/v1";
 
 export class BaiduBceTranslator implements TranslationStrategy {
 	config: BaidubceConfigs;
@@ -23,18 +26,18 @@ export class BaiduBceTranslator implements TranslationStrategy {
 	async translate(request: TranslateRequest): Promise<TranslateResponse> {
 		try {
 			await this.getAccessToken();
-			return new class implements TranslateResponse {
-				boomExplains: [{ type: string; explains: [string] }];
-				explains: [any];
-				extensions: [{ name: string; value: string }];
-				from: from;
-				isWord: boolean;
-				link: [string];
-				source: string;
-				speeches: [{ phonetic: string; speech: string; area: string }];
-				to: "to";
-				translation: [string];
-			}
+			console.log(request)
+			return this.parseResponse(await requestUrl({
+				url: BAIDUBCE_TRANSLATE_API + "?access_token=" + this.accessToken,
+				method: "POST",
+				contentType: "application/json;charset=utf-8",
+				body:JSON.stringify({
+					from: "auto",
+					// TODO 插件语种 => 引擎语种的映射
+					to: request.to === "cn" ? "zh" : request.to,
+					q: request.words
+				})
+			}));
 		} catch (error) {
 			throw error;
 		}
@@ -59,4 +62,23 @@ export class BaiduBceTranslator implements TranslationStrategy {
 	}
 
 
+	private parseResponse(requestUrlResponse: RequestUrlResponse): TranslateResponse {
+		let transResult = requestUrlResponse?.json?.result?.trans_result?.[0];
+		if (!transResult) {
+			throw new Error("翻译引擎结果为空");
+		}
+		console.log(JSON.stringify(transResult))
+		return new class implements TranslateResponse {
+			boomExplains: [{ type: string; explains: [string] }];
+			explains: [any];
+			extensions: [{ name: string; value: string }];
+			from: from;
+			isWord: boolean;
+			link: [string];
+			source: string;
+			speeches: [{ phonetic: string; speech: string; area: string }];
+			to: "to";
+			translation: [string];
+		}
+	}
 }
