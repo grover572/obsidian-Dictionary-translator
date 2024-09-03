@@ -70,17 +70,20 @@ export class DictionarySettingTab extends PluginSettingTab {
 					}
 
 					const words = en ? "你好" : "hello";
-					const translateResponse = await this.plugin.getTranslator()?.translate({
-						from: en ? "cn" : "en",
-						to: en ? "en" : "cn",
-						words: words
-					});
-
-					console.debug(translateResponse)
-					if (translateResponse) {
-						new Notice(`${i18n("connect_test_success")} : ${words}  ➡️   ${translateResponse.translation}`)
-					} else {
-						new Notice(i18n("init_engine_exception", {error: "unknown"}))
+					try {
+						const translateResponse = await this.plugin.getTranslator()?.translate({
+							from: en ? "cn" : "en",
+							to: en ? "en" : "cn",
+							words: words
+						});
+						console.debug(translateResponse)
+						if (translateResponse) {
+							new Notice(`${i18n("connect_test_success")} : ${words}  ➡️   ${translateResponse.translation}`)
+						} else {
+							new Notice(i18n("init_engine_exception", {error: "unknown"}))
+						}
+					} catch (e) {
+						new Notice(i18n("init_engine_exception", {error: e.message}))
 					}
 				})
 			})
