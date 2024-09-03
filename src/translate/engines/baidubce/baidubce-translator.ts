@@ -1,17 +1,15 @@
-import {EngineConfig, from, TranslationStrategy} from "../../const/translate-engines";
+import {from, TranslationStrategy} from "../../const/translate-engines";
 import DictionaryPlugin from "../../../main";
 import {TranslateRequest} from "../../const/translate-request";
 import {TranslateResponse} from "../../const/translate-response";
-import axios from "axios";
 import {BaidubceConfigs} from "./baidubce-configs";
-import {YoudaoConfigs} from "../youdao/youdao-configs";
-import {NullConfigError} from "../../const/null_config_error";
-import {findEmptyKeys} from "../../../util/utils";
-import jsonp from "../../../util/jsonp";
+import {requestUrl} from "obsidian";
 
 export class BaiduBceTranslator implements TranslationStrategy {
 	config: BaidubceConfigs;
 	plugin: DictionaryPlugin;
+
+	accessToken: string;
 
 	constructor(config: BaidubceConfigs, plugin: DictionaryPlugin) {
 		if (config.apiKey && config.secretKey) {
@@ -24,8 +22,7 @@ export class BaiduBceTranslator implements TranslationStrategy {
 
 	async translate(request: TranslateRequest): Promise<TranslateResponse> {
 		try {
-			console.log(this.config)
-			this.getAccessToken()
+			await this.getAccessToken();
 			return new class implements TranslateResponse {
 				boomExplains: [{ type: string; explains: [string] }];
 				explains: [any];
@@ -47,9 +44,18 @@ export class BaiduBceTranslator implements TranslationStrategy {
 		const clientId = this.config.apiKey;
 		const clientSecret = this.config.secretKey;
 		const url = `https://aip.baidubce.com/oauth/2.0/token?client_id=${clientId}&client_secret=${clientSecret}&grant_type=client_credentials`;
+		try {
+			// requestUrl 忽略跨域检测
+			const response = await requestUrl(url);
+			if (response.status != 200 || !response?.json?.access_token) {
+				throw new Error("请求百度智能云时失败，HTTP StatusCode:" + response.status);
+			}
+			this.accessToken = response.json.access_token;
+		} catch (e) {
+			console.error("Error details:", e);
+			throw new Error("请求百度智能云时异常，请检查apiKey与secretKey; 详细信息：" + e.message);
+		}
 
-		const rsp = await jsonp(url,{client_id:this.config.apiKey,client_secret:this.config.secretKey,grant_type:'client_credentials'})
-		console.log(rsp)
 	}
 
 
