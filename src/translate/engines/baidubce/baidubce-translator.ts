@@ -72,14 +72,9 @@ export class BaiduBceTranslator implements TranslationStrategy {
 		const dict = transResult.dict && JSON.parse(transResult.dict);
 		const src_tts = transResult.src_tts;
 		const isWord = !(!dict);
-
 		const simpleMeans = dict?.word_result?.simple_means;
-
-		console.log(simpleMeans)
-
-		console.log(isWord)
-
 		console.log(dict)
+		console.log(simpleMeans)
 
 		return {
 			// boomExplains: [
