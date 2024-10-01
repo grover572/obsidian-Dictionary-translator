@@ -1,4 +1,4 @@
-import {Editor, normalizePath, Notice, Plugin, TFile, TFolder} from 'obsidian';
+import {Editor, normalizePath, Notice, Plugin, TFile, TFolder, MarkdownView} from 'obsidian';
 import {DEFAULT_SETTINGS, DictionarySettings, DictionarySettingTab} from "./setting";
 import {I18n, I18nKey, LangTypeAndAuto} from "./util/i18n";
 import {TranslateEngines, TranslationStrategy} from "./translate/const/translate-engines";
@@ -42,7 +42,7 @@ export default class DictionaryPlugin extends Plugin {
 									to: support_lang[this.settings.targetLang].engine[this.settings.engine],
 									words: selection
 								});
-								// new TranslationModal(this, translateResponse, editor).open();
+								new TranslationModal(this, translateResponse, editor).open();
 							});
 					});
 				}
@@ -79,8 +79,17 @@ export default class DictionaryPlugin extends Plugin {
 			this.app.vault.createBinary(radioPath, saveData.radio);
 		}
 
-		const appendPosition = editor.lastLine() + 1;
+		if (editor.inTableCell) {
+			const currentFile = app.workspace.getActiveFile();
+			if (currentFile) {
+				const markdownView = app.workspace.getActiveViewOfType(MarkdownView);
+				if (markdownView && markdownView.file.path === currentFile.path) {
+					editor = markdownView.editor;
+				}
+			}
+		}
 
+		const appendPosition = editor.lastLine() + 1;
 		const title = `\n\n>[!translator-card-callout]+ ${saveData.title}\n`
 		const content = saveData.content.map(c => `>${c.trim()}`).join("\n");
 		const radio = `\n![[${radioPath}]]`
