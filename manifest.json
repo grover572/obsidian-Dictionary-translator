@@ -3,7 +3,7 @@
 	"name": "Dictionary translator",
 	"version": "1.0.4",
 	"minAppVersion": "1.1.1",
-	"description": "It can help you translate words or sentences, listen to recordings of new words or sentences, and even record your own pronunciation to save in the form of internal links to your notes.",
+	"description": "它可以帮助你翻译单词或句子，听新单词或句子的录音，甚至录下自己的发音，以内部链接的形式保存到你的笔记中。",
 	"author": "Grover",
 	"authorUrl": "https://github.com/grover572",
 	"isDesktopOnly": true

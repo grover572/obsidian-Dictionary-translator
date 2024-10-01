@@ -1,11 +1,11 @@
 {
 	"name": "obsidian-Dictionary-translator",
-	"version": "1.0.2",
-	"description": "This plugin allows you to quickly underline word translations and insert word cards in your notes",
+	"version": "1.0.4",
+	"description": "我可以帮助你翻译单词或句子，听新单词或句子的录音，甚至录下自己的发音，以内部链接的形式保存到你的笔记中。",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
-		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+		"build": "node esbuild.config.mjs production",
 		"version": "node version-bump.mjs && git add manifest.json versions.json"
 	},
 	"keywords": [],
