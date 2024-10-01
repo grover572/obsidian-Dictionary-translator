@@ -4,7 +4,6 @@ import {TranslateRequest} from "../../const/translate-request";
 import {TranslateResponse} from "../../const/translate-response";
 import {BaidubceConfigs} from "./baidubce-configs";
 import {requestUrl, RequestUrlResponse} from "obsidian";
-import * as url from "url";
 
 const BAIDUBCE_TRANSLATE_API = "https://aip.baidubce.com/rpc/2.0/mt/texttrans-with-dict/v1";
 
@@ -72,23 +71,30 @@ export class BaiduBceTranslator implements TranslationStrategy {
 		const dict = transResult.dict && JSON.parse(transResult.dict);
 		const src_tts = transResult.src_tts;
 		const isWord = !(!dict);
+		// console.log(src_tts)
 		const simpleMeans = dict?.word_result?.simple_means;
-		console.log(dict)
-		console.log(simpleMeans)
+		// console.log(JSON.stringify(dict))
+		// console.log(simpleMeans)
 
 		return {
-			// boomExplains: [
-			//
-			// ],
-			// explains: [],
-			// extensions: [],
-			// from:  transResult.src,
-			// isWord: isWord,
-			// link: [],
-			// source: string,
-			// speeches: [{ phonetic: string; speech: string; area: string }],
-			// to: transResult.dst,
-			// translation: [string]
+			boomExplains: isWord ? simpleMeans.symbols[0].parts.map(part => {
+				return {
+					type: part.part || '',
+					explains: part.means
+				};
+			}) : [{
+				type: "",
+				explains: transResult.dst
+			}],
+			explains: isWord ? simpleMeans.symbols[0].parts.map(part => {
+				return `${part.part} ${part.means.join('；')}`;
+			}) : transResult.dst,
+			extensions: null,
+			isWord: isWord,
+			link: null,
+			source: transResult.src,
+			speeches: [{speech: src_tts}],
+			translation: [transResult.dst]
 		}
 	}
 }
